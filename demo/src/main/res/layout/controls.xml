@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_margin="16dp"
+        android:id="@+id/logo_prompt"
+        android:text="Check out ViewPrinter logo!"
+        android:textColor="?attr/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#44AAAAAA" />
+
+    <!-- Column count -->
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <TextView
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:padding="8dp"
+            android:text="Columns"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:padding="8dp"
+            android:id="@+id/control_columns_text"
+            android:text="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+    <SeekBar
+        android:id="@+id/control_columns"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:max="3"
+        android:progress="0"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#44AAAAAA" />
+
+    <!-- Print size -->
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <TextView
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:padding="8dp"
+            android:text="Print size"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:padding="8dp"
+            android:id="@+id/control_size_text"
+            android:text="ISO A5"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+    <SeekBar
+        android:id="@+id/control_size"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:max="3"
+        android:progress="1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+</merge>

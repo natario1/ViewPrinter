@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <com.otaliastudios.printer.DocumentView
+                android:id="@+id/preview"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#444444"
+                app:columnsPerPage="1"
+                app:pageBackground="#999999"
+                app:pageDividerWidth="0.3in"
+                app:pageElevation="0.03in">
+
+                <!-- android:background="@drawable/logo_background" -->
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_margin="50px"
+                    app:elevation="20px"
+                    app:backgroundTint="@android:color/white"
+                    android:padding="50px"
+                    android:id="@+id/logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.otaliastudios.printer.DocumentView>
+
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:background="@color/colorAccent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:textColor="@android:color/white"
+                android:text="Print PNG"
+                android:id="@+id/print_png"
+                android:background="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
+

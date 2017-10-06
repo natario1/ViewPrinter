@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DocumentView">
+
+        <attr name="pageElevation" format="dimension" />
+
+        <attr name="pageInset" format="dimension" />
+
+        <attr name="pageInsetTop" format="dimension" />
+
+        <attr name="pageInsetStart" format="dimension" />
+
+        <attr name="pageInsetEnd" format="dimension" />
+
+        <attr name="pageInsetBottom" format="dimension" />
+
+        <attr name="pageDividerWidth" format="dimension" />
+
+        <attr name="columnsPerPage" format="integer" />
+
+        <attr name="pageBackground" format="color|reference" />
+
+        <attr name="pagerType" format="enum" >
+            <enum name="vertical" value="0"/>
+            <enum name="horizontal" value="1"/>
+        </attr>
+
+        <attr name="printSize" format="enum">
+            <enum name="wrapContent" value="-1"/>
+
+            <enum name="ISO_A0" value="0"/>
+            <enum name="ISO_A1" value="1"/>
+            <enum name="ISO_A2" value="2"/>
+            <enum name="ISO_A3" value="3"/>
+            <enum name="ISO_A4" value="4"/>
+            <enum name="ISO_A5" value="5"/>
+            <enum name="ISO_A6" value="6"/>
+            <enum name="ISO_A7" value="7"/>
+            <enum name="ISO_A8" value="8"/>
+            <enum name="ISO_A9" value="9"/>
+            <enum name="ISO_A10" value="10"/>
+
+            <enum name="ISO_B0" value="11"/>
+            <enum name="ISO_B1" value="12"/>
+            <enum name="ISO_B2" value="13"/>
+            <enum name="ISO_B3" value="14"/>
+            <enum name="ISO_B4" value="15"/>
+            <enum name="ISO_B5" value="16"/>
+            <enum name="ISO_B6" value="17"/>
+            <enum name="ISO_B7" value="18"/>
+            <enum name="ISO_B8" value="19"/>
+            <enum name="ISO_B9" value="20"/>
+            <enum name="ISO_B10" value="21"/>
+
+            <enum name="ISO_C0" value="22"/>
+            <enum name="ISO_C1" value="23"/>
+            <enum name="ISO_C2" value="24"/>
+            <enum name="ISO_C3" value="25"/>
+            <enum name="ISO_C4" value="26"/>
+            <enum name="ISO_C5" value="27"/>
+            <enum name="ISO_C6" value="28"/>
+            <enum name="ISO_C7" value="29"/>
+            <enum name="ISO_C8" value="30"/>
+            <enum name="ISO_C9" value="31"/>
+            <enum name="ISO_C10" value="32"/>
+
+            <enum name="NA_FOOLSCAP" value="33"/>
+            <enum name="NA_GOVT_LETTER" value="34"/>
+            <enum name="NA_INDEX_3X5" value="35"/>
+            <enum name="NA_INDEX_4X6" value="36"/>
+            <enum name="NA_INDEX_5X8" value="37"/>
+            <enum name="NA_JUNIOR_LEGAL" value="38"/>
+            <enum name="NA_LEDGER" value="39"/>
+            <enum name="NA_LEGAL" value="40"/>
+            <enum name="NA_LETTER" value="41"/>
+            <enum name="NA_MONARCH" value="42"/>
+            <enum name="NA_QUARTO" value="43"/>
+            <enum name="NA_TABLOID" value="44"/>
+        </attr>
+    </declare-styleable>
+</resources>

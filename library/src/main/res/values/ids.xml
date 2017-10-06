@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="untakable" type="id"/>
+    <item name="viewNumber" type="id"/>
+    <!-- item name="widthBound" type="id"/>
+    <item name="heightBound" type="id"/>
+    <item name="unboundedHeight" type="id"/ -->
+</resources>
