@@ -34,6 +34,7 @@ compile 'com.otaliastudios:viewprinter:0.1.0'
 
 # Docs
 
+- [Why](#why)
 - [DocumentView](#documentView)
   - [Unbounded content](#unbounded-content)
   - [Bounded content](#bounded-content)
@@ -45,6 +46,21 @@ compile 'com.otaliastudios:viewprinter:0.1.0'
   - [PdfPrinter](#pdfprinter)
   - [PngPrinter](#pngprinter)
   - [JpegPrinter](#jpegprinter)
+
+## Why
+
+The starting point of this library is that the Android framework is extremely powerful and versatile when drawing.
+Android is not a complete word processor, and is not a complete graphic editor. But it is a decent mix between the two,
+and with a few Android drawing skills - even just layout - we can draw objects, construct hierarchies,
+create complex layouts with dependencies, apply transformations and whatever else we usually do.
+
+This can be an incomplete, but very powerful and versatile tool for document creation, whether its text,
+your resume, or a graphical task. The only things lacking, in order to leverage this versatility, are:
+
+- a decent document preview editor
+- an easy way to print the document
+
+This library provides both.
 
 ## DocumentView
 

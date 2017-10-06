@@ -19,7 +19,7 @@
             android:layout_width="50pt"
             android:layout_height="50pt"
             app:srcCompat="@drawable/ic_arrow_forward"
-            app:tint="@android:color/white"/>
+            android:tint="@android:color/white"/>
     </LinearLayout>
 
     <com.otaliastudios.printer.DocumentTextView

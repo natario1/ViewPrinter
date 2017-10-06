@@ -1,6 +1,7 @@
 package com.otaliastudios.printer;
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.TextView;
  *
  * @see DocumentTextView
  */
+@SuppressLint("AppCompatCustomView")
 public class DocumentTextView extends TextView {
 
     private final static String TAG = DocumentTextView.class.getSimpleName();
