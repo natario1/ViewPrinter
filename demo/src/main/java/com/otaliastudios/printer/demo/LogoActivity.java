@@ -48,9 +48,8 @@ public class LogoActivity extends AppCompatActivity implements PrintCallback, Vi
         setContentView(R.layout.activity_logo);
         mDocument = findViewById(R.id.preview);
         mDocument.setHasClickableChildren(false);
-        mDocument.setPrintSize(PrintSize.fromPixels(this, 1000, 1000));
-        // mDocument.setPageInset(100, 100, 100, 100);
         mDocument.setPageInset(0, 0, 0, 0);
+        mDocument.setPrintSize(PrintSize.fromPixels(this, 1000, 1000));
         mPngPrinter = new PngPrinter(mDocument, this);
         mPngPrinter.setPrintPageBackground(false);
 

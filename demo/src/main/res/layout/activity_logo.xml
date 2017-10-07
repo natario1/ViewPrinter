@@ -22,11 +22,10 @@
                 android:layout_height="match_parent"
                 android:background="#444444"
                 app:columnsPerPage="1"
-                app:pageBackground="#999999"
+                app:pageBackground="#666666"
                 app:pageDividerWidth="0.3in"
                 app:pageElevation="0.03in">
 
-                <!-- android:background="@drawable/logo_background" -->
                 <android.support.design.widget.FloatingActionButton
                     android:layout_margin="50px"
                     app:elevation="20px"
@@ -35,6 +34,16 @@
                     android:id="@+id/logo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+
+                <!--ImageView
+                    android:layout_margin="50px"
+                    android:elevation="20px"
+                    android:background="@drawable/logo_background"
+                    app:backgroundTint="@android:color/white"
+                    android:padding="50px"
+                    android:id="@+id/logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/-->
 
             </com.otaliastudios.printer.DocumentView>
 

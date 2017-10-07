@@ -76,6 +76,13 @@ abstract class BitmapPrinter extends Printer {
                 background = view.getBackground();
                 view.setBackground(null);
             }
+
+            // Tried this to have shadows drawing but no success.
+            // view.setWillNotCacheDrawing(false);
+            // view.destroyDrawingCache();
+            // view.buildDrawingCache();
+            // canvas.drawBitmap(view.getDrawingCache(), 0, 0, null);
+
             view.draw(canvas);
             if (!mPrintBackground) {
                 view.setBackground(background);

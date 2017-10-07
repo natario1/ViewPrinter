@@ -25,7 +25,7 @@
         <item name="android:textStyle">italic</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">?android:attr/textColorTertiary</item>
-        <item name="android:textSize">15pt</item>
+        <item name="android:textSize">13pt</item>
     </style>
 
     <style name="Text.Header1">

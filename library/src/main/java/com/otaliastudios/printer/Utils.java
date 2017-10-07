@@ -76,8 +76,9 @@ class Utils {
      */
     static int tryGetHeight(View child, int heightBound, boolean getMeasuredIfAny) {
         int height = -1;
-        if (height == -1 && getMeasuredIfAny) height = getMeasuredHeight(child);
+        // Order is important. We don't want to trust measuredHeight if it belonged to a different page size.
         if (height == -1) height = getEstimatedHeight(child, heightBound);
+        if (height == -1 && getMeasuredIfAny) height = getMeasuredHeight(child);
         return height;
     }
 
