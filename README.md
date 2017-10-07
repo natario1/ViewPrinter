@@ -269,6 +269,7 @@ actual image file instance.
 
 ```java
 mPrinter = new JpegPrinter(mDocumentView, mPrintCallback);
+mPrinter.setQuality(90);
 mPrinter.print("id", mFile, "my-image");
 ```
 
