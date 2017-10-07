@@ -5,21 +5,18 @@
 
     <LinearLayout
         android:background="@drawable/splash"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="50pt"
         android:gravity="center"
+        android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
             app:srcCompat="@drawable/logo_150dp"
-            android:layout_width="300pt"
-            android:layout_height="300pt"/>
-        <ImageView
-            android:layout_marginTop="50pt"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            app:srcCompat="@drawable/ic_arrow_forward"
-            android:tint="@android:color/white"/>
+            android:layout_weight="0.7"
+            android:adjustViewBounds="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <com.otaliastudios.printer.DocumentTextView
