@@ -77,7 +77,7 @@
         style="@style/Text.Paragraph.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Actually, it's easy to do anything you can do with a TextView, using XML or programmatically:"/>
+        android:text="Actually, it's easy to do anything you can do with a TextView, using XML or programmatically. The PDF result will be even selectable!"/>
 
     <com.otaliastudios.printer.DocumentTextView
         style="@style/Text.Paragraph"

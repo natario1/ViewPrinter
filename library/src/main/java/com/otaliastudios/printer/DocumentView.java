@@ -44,6 +44,8 @@ public final class DocumentView extends ZoomLayout implements View.OnLayoutChang
     // Internal note: the whole hierarchy currently relies on the fact that all columns are equal
     // Think for example of the Untakable flag which is persisted among columns.
 
+    // TODO: view shadows are not drawn, https://stackoverflow.com/questions/34711211/draw-elevation-shadows-to-canvas
+
     private final static String TAG = DocumentView.class.getSimpleName();
     private final static PrinterLogger LOG = PrinterLogger.create(TAG);
 

@@ -31,6 +31,7 @@ public class LogoDrawable extends Drawable {
     private int[][] mColors;
     private int[][] mScores;
     private int[][] mCache = new int[ROWS][COLS];
+    private float[][] mRadiusCache = new float[ROWS][COLS];
 
     public LogoDrawable(Context context) {
         mGrey = Color.argb(0, 150, 150, 150);
@@ -99,10 +100,13 @@ public class LogoDrawable extends Drawable {
     }
 
     private float getRadius(int row, int col) {
-        int score = getScore(row, col);
-        float baseRadius = 0.35f * (float) mWidth / COLS;
-        float shift = R.nextFloat() * 20;
-        return baseRadius + shift * score;
+        if (mRadiusCache[row][col] == 0) {
+            int score = getScore(row, col);
+            float baseRadius = 0.35f * (float) mWidth / COLS;
+            float shift = R.nextFloat() * 20;
+            mRadiusCache[row][col] = baseRadius + shift * score;
+        }
+        return mRadiusCache[row][col];
     }
 
     private int getColor(int row, int col) {
