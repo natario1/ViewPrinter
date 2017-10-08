@@ -19,67 +19,67 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ViewPrinter Preview Document"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="An overview of the printer library.\nhttps://github.com/natario1/ViewPrinter"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="A non editable paragraph"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel quam elementum pulvinar etiam non quam lacus suspendisse. Morbi blandit cursus risus at ultrices mi tempus imperdiet. Hendrerit dolor magna eget est lorem. Vestibulum morbi blandit cursus risus at ultrices mi. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque eleifend donec. Sed cras ornare arcu dui vivamus arcu. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur. In aliquam sem fringilla ut morbi tincidunt augue interdum. Viverra vitae congue eu consequat ac felis donec. At lectus urna duis convallis convallis tellus id. Ultrices dui sapien eget mi. Est ultricies integer quis auctor."/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Egestas sed tempus urna et pharetra pharetra massa massa. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Urna neque viverra justo nec ultrices dui sapien eget. Facilisis volutpat est velit egestas dui id. Libero enim sed faucibus turpis in eu mi bibendum. Pellentesque dignissim enim sit amet venenatis urna cursus eget. Commodo nulla facilisi nullam vehicula ipsum a arcu cursus. Augue interdum velit euismod in pellentesque massa. Ac felis donec et odio pellentesque diam volutpat. Lorem ipsum dolor sit amet. Cras semper auctor neque vitae. Iaculis eu non diam phasellus vestibulum lorem sed risus. Mi sit amet mauris commodo quis imperdiet massa."/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Egestas sed tempus urna et pharetra pharetra massa massa. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Urna neque viverra justo nec ultrices dui sapien eget. Facilisis volutpat est velit egestas dui id. Libero enim sed faucibus turpis in eu mi bibendum. Pellentesque dignissim enim sit amet venenatis urna cursus eget. Commodo nulla facilisi nullam vehicula ipsum a arcu cursus. Augue interdum velit euismod in pellentesque massa. Ac felis donec et odio pellentesque diam volutpat. Lorem ipsum dolor sit amet. Cras semper auctor neque vitae. Iaculis eu non diam phasellus vestibulum lorem sed risus. Mi sit amet mauris commodo quis imperdiet massa."/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Something trickier"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="It\'s easy to have something right-aligned:"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph.RightAlign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Quis viverra nibh cras pulvinar mattis. Nec sagittis aliquam malesuada bibendum arcu vitae elementum. Sit amet nisl purus in mollis nunc. Viverra suspendisse potenti nullam ac tortor. Ut porttitor leo a diam sollicitudin. Tincidunt praesent semper feugiat nibh sed. Vulputate ut pharetra sit amet aliquam id diam maecenas. Adipiscing diam donec adipiscing tristique risus nec feugiat in fermentum. Erat velit scelerisque in dictum non. Eget est lorem ipsum dolor sit amet. Sit amet venenatis urna cursus. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend. Cursus metus aliquam eleifend mi in nulla posuere. Volutpat diam ut venenatis tellus in metus vulputate eu. Amet risus nullam eget felis eget nunc lobortis mattis aliquam. Facilisi morbi tempus iaculis urna id volutpat lacus laoreet."/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Actually, it's easy to do anything you can do with a TextView, using XML or programmatically. The PDF result will be even selectable!"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,25 +90,25 @@
         android:textColor="@color/colorPrimaryDark"
         android:text="Risus commodo viverra maecenas accumsan. Ut morbi tincidunt augue interdum velit euismod. Lectus urna duis convallis convallis tellus. Tellus elementum sagittis vitae et leo duis ut. Tortor pretium viverra suspendisse potenti nullam. Viverra tellus in hac habitasse. Dolor magna eget est lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet consectetur. Purus non enim praesent elementum facilisis leo vel. Eget egestas purus viverra accumsan in. Bibendum ut tristique et egestas quis ipsum suspendisse. Sit amet luctus venenatis lectus magna fringilla urna porttitor. Dui vivamus arcu felis bibendum. Sed enim ut sem viverra aliquet. Bibendum est ultricies integer quis auctor elit sed vulputate. Sit amet cursus sit amet dictum sit amet. Mollis aliquam ut porttitor leo a diam sollicitudin tempor id. Ac orci phasellus egestas tellus rutrum tellus."/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="We have the full graphical power of the Android framework, to create pages or artworks. This also means that text can be editable:"/>
 
-    <com.otaliastudios.printer.DocumentEditText
+    <com.otaliastudios.printer.view.DocumentEditText
         style="@style/Text.Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Nec nam aliquam sem et tortor consequat id porta nibh. Magna eget est lorem ipsum dolor sit amet..."/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Even better"/>
 
-    <com.otaliastudios.printer.DocumentTextView
+    <com.otaliastudios.printer.view.DocumentTextView
         style="@style/Text.Paragraph.Strong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

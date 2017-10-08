@@ -162,6 +162,7 @@ A few notes:
 
 - For text, please use `DocumentTextView`: it will notify the parent when it gets bigger.
 - For editable text, please use `DocumentEditText`: same as above.
+- If using app compat, you might want to use the `AppCompat-` version of these widgets.
 - We can't split text of a single view into multiple pages or columns. 
   It is your responsibility to have Views that are small enough to avoid blank spaces.
 

@@ -1,16 +1,12 @@
 package com.otaliastudios.printer;
 
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import com.otaliastudios.printer.view.DocumentEditText;
+import com.otaliastudios.printer.view.DocumentTextView;
 
 /**
  * Static utilities for text containers that might become smaller than they would like to,

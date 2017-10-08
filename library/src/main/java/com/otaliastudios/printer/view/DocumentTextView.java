@@ -1,4 +1,4 @@
-package com.otaliastudios.printer;
+package com.otaliastudios.printer.view;
 
 
 import android.annotation.SuppressLint;
@@ -6,18 +6,17 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.otaliastudios.printer.DocumentTextHelper;
+import com.otaliastudios.printer.DocumentView;
+
 /**
- * An {@link EditText} implementation that works well when laid out inside
+ * A {@link TextView} implementation that works well when laid out inside
  * a {@link DocumentView}.
  *
- * @see DocumentTextView
+ * @see DocumentEditText
+ * @see DocumentTextHelper
  */
 @SuppressLint("AppCompatCustomView")
 public class DocumentTextView extends TextView {
