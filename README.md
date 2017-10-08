@@ -194,6 +194,7 @@ You can also define a custom `PrintSize` of your choice, using the static method
 - `PrintSize.fromMils(int, int)`: sets the content size in *mils*, that is, thousandth-s of an inch.
 - `PrintSize.fromPoints(float, float)`: sets the content size in *points*, that is, 72th-s of an inch.
 - `PrintSize.fromInches(float, float)`: sets the content size in *inches*.
+- `PrintSize.fromMillimeters(int, int)`: sets the content size in *millimeters*.
 - `PrintSize.fromPixels(Context, float, float)`: sets the content size in *pixels*. We need a valid context to know the display metrics.
 
 There is no preferable API - it's up to your content and how you want to deal with it.
@@ -204,6 +205,7 @@ android:layout_width="20pt"
 android:layout_width="2in"
 android:layout_width="2px"
 android:textSize="20px"
+app:pageInsets="30mm"
 ```
 
 Depending on what you do, standard units like `sp` and `dp` *might* make no sense here.
