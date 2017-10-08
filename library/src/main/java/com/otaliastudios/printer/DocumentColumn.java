@@ -94,7 +94,10 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
 
     @Override
     public void onSpaceOver(DocumentColumn child) {
-        // We have no children so no one can call this.
+        // This can be called by child TextViews or EditText that grown
+        // to be too small. See DocumentTextHelper.
+        mLog.w("notifyTooSmall:", "one of our children says is smaller than he would like to.");
+        getRoot().onSpaceOver(this);
     }
 
     //endregion
@@ -187,15 +190,6 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
     //endregion
 
     //region Remove childs that have grown, pass back childs that did shrink
-
-    /**
-     * A child notifies that it is being less tall than he would like to be.
-     */
-    void notifyTooSmall(View tooSmallChild, View directChild) {
-        mLog.w("notifyTooSmall:", "our child", Utils.mark(directChild),
-                "is smaller than he would like to.");
-        getRoot().onSpaceOver(this);
-    }
 
     /**
      * Something changed here.
