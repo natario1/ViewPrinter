@@ -121,6 +121,18 @@ public final class PrintSize {
 
     /**
      * Creates a {@link PrintSize} out of its exact dimensions
+     * in millimeters.
+     *
+     * @param widthMm width in millimeters
+     * @param heightMm height in millimeters
+     * @return a new size
+     */
+    public static PrintSize fromMillimeters(int widthMm, int heightMm) {
+        return fromInches(widthMm * MM_TO_INCHES, heightMm * MM_TO_INCHES);
+    }
+
+    /**
+     * Creates a {@link PrintSize} out of its exact dimensions
      * in pixels.
      *
      * @param context a valid context
@@ -212,6 +224,24 @@ public final class PrintSize {
     }
 
     /**
+     * Returns the width of this size in millimeters.
+     *
+     * @return width in millimeters
+     */
+    public int widthMillimeters() {
+        return (int) (widthInches() * INCHES_TO_MM);
+    }
+
+    /**
+     * Returns the height of this size in millimeters.
+     *
+     * @return height in millimeters
+     */
+    public int heightMillimeters() {
+        return (int) (heightInches() * INCHES_TO_MM);
+    }
+
+    /**
      * Returns the width of this size in pixels,
      * based on the current display. Throws if this size
      * is equal to {@link #WRAP_CONTENT}.
@@ -277,10 +307,25 @@ public final class PrintSize {
     static float MILS_TO_INCHES = 1f / 1000f;
     static float INCHES_TO_POINTS = 72f;
     static float POINTS_TO_INCHES = 1f / 72f;
+    static float INCHES_TO_MM = 25.4f;
+    static float MM_TO_INCHES = 1f / 25.4f;
+
     static float INCHES_TO_PIXELS(Context context) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_IN, 1, metrics);
     }
-    static float PIXELS_TO_INCHES(Context context) { return 1f / INCHES_TO_PIXELS(context); }
+
+    static float MM_TO_PIXELS(Context context) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, metrics);
+    }
+
+    static float PIXELS_TO_INCHES(Context context) {
+        return 1f / INCHES_TO_PIXELS(context);
+    }
+
+    static float PIXELS_TO_MM(Context context) {
+        return 1f / MM_TO_PIXELS(context);
+    }
 
 }

@@ -44,6 +44,8 @@ abstract class BitmapPrinter extends Printer {
         if (filename.toLowerCase().endsWith(mFormat)) {
             filename = filename.substring(0, filename.length() - 4);
         }
+        if (mDocument.getPageCount() == 0) return;
+
 
         final Handler ui = new Handler();
         final HandlerThread thread = new HandlerThread(getClass().getSimpleName() + "Worker");

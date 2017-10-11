@@ -59,6 +59,7 @@ public final class PdfPrinter extends Printer {
         final File file = new File(directory, filename);
         if (!checkFile(printId, file)) return;
 
+        if (mDocument.getPageCount() == 0) return;
         DocumentPage firstPage = mDocument.getPageAt(0);
         PrintSize size = mDocument.getPdfSize();
 

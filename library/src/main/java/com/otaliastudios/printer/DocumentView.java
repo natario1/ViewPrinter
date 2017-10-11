@@ -39,12 +39,13 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * collecting all the views, removing them, and adding them to a new shaped layout.
  * The same is true for other APIs as well.
  */
-public final class DocumentView extends ZoomLayout implements View.OnLayoutChangeListener {
+public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListener {
 
     // Internal note: the whole hierarchy currently relies on the fact that all columns are equal
     // Think for example of the Untakable flag which is persisted among columns.
 
     // TODO: view shadows are not drawn, https://stackoverflow.com/questions/34711211/draw-elevation-shadows-to-canvas
+    // TODO: scrollToPage() API
 
     private final static String TAG = DocumentView.class.getSimpleName();
     private final static PrinterLogger LOG = PrinterLogger.create(TAG);
