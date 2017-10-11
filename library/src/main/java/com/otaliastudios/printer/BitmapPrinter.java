@@ -22,8 +22,16 @@ abstract class BitmapPrinter extends Printer {
     private static final String TAG = BitmapPrinter.class.getSimpleName();
     private static final PrinterLogger LOG = PrinterLogger.create(TAG);
 
+    /**
+     * Constant for {@link #setPrintablePages(int...)} to say that we want to print
+     * all pages. This is actually the default.
+     */
+    public static final int PRINTABLE_ALL = -1;
+
     private Bitmap.CompressFormat mCompressFormat;
     private String mFormat;
+    private boolean mPrintAll;
+    private int[] mPrintable;
 
     BitmapPrinter(int permissionCode,
                   @NonNull Bitmap.CompressFormat compressFormat, @NonNull String format,
@@ -31,6 +39,23 @@ abstract class BitmapPrinter extends Printer {
         super(permissionCode, document, callback);
         mCompressFormat = compressFormat;
         mFormat = format.toLowerCase();
+        mPrintAll = true;
+    }
+
+    /**
+     * Sets the numbers of the pages which should be printed.
+     * To print all pages (which is the default), you can pass {@link #PRINTABLE_ALL}
+     * as the only parameter.
+     *
+     * @param pageNumbers any number of pages to be printed
+     */
+    public final void setPrintablePages(int... pageNumbers) {
+        if (pageNumbers.length == 1 && pageNumbers[0] == PRINTABLE_ALL) {
+            mPrintAll = true;
+        } else {
+            mPrintAll = false;
+            mPrintable = pageNumbers;
+        }
     }
 
     protected abstract int getQuality();
@@ -52,10 +77,10 @@ abstract class BitmapPrinter extends Printer {
         thread.start();
         final Handler worker = new Handler(thread.getLooper());
 
-        int count = mDocument.getPageCount();
+        int count = mPrintAll ? mDocument.getPageCount() : mPrintable.length;
         for (int i = 0; i < count; i++) {
-            final int page = i;
-            String suffix = count == 1 ? mFormat : "-" + (i + 1) + mFormat;
+            final int page = mPrintAll ? i : mPrintable[i];
+            String suffix = count == 1 ? mFormat : "-" + (page + 1) + mFormat;
             final File file = new File(directory, filename + suffix);
             if (!checkFile(printId, file)) {
                 thread.quitSafely();
@@ -72,7 +97,7 @@ abstract class BitmapPrinter extends Printer {
                         size.heightPixels(context), Bitmap.Config.ARGB_8888);
             }
             Canvas canvas = new Canvas(bitmap);
-            DocumentPage view = mDocument.getPageAt(i);
+            DocumentPage view = mDocument.getPageAt(page);
             Drawable background = null;
             if (!mPrintBackground) {
                 background = view.getBackground();

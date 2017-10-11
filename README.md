@@ -259,6 +259,7 @@ which defaults to `true`.
 
 ```java
 mPrinter = new PngPrinter(mDocumentView, mPrintCallback);
+mPrinter.setPrintablePages(PngPrinter.PRINTABLE_ALL);
 mPrinter.print("id", mFile, "my-image");
 ```
 
@@ -266,12 +267,13 @@ The only difference here is that, if the document has multiple pages (e.g. 3), w
 different files: `my-image-1.png`, `my-image-2.png`, `my-image-3.png`.
 
 This also means that the `PrintCallback` will be called three times, each time passing the 
-actual image file instance.
+actual image file instance. You can choose which pages are saved using `setPrintablePages`.
 
 ### JpegPrinter
 
 ```java
 mPrinter = new JpegPrinter(mDocumentView, mPrintCallback);
+mPrinter.setPrintablePages(JpegPrinter.PRINTABLE_ALL);
 mPrinter.setQuality(90);
 mPrinter.print("id", mFile, "my-image");
 ```
