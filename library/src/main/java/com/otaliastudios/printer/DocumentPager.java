@@ -323,23 +323,24 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
         LOG.i("onSpaceAvailable:", "fromPage:", child.getNumber());
 
         synchronized (mLock) {
-            int which = mPages.indexOf(child);
-            boolean first = which == 0;
-            boolean last = which == getPageCount() - 1;
+            int index = mPages.indexOf(child);
+            boolean first = index == 0;
 
             // Check if the previous page wants our first child.
             // TODO: this is a useless check if the first child was not the one collapsing.
             if (!first) {
                 LOG.v("onSpaceAvailable:", "trying to pass to page", child.getNumber() - 1);
-                DocumentPage previous = mPages.get(which - 1);
-                if (tryPassFirstViewToPrevious(child, previous)) return;
+                DocumentPage previous = mPages.get(index - 1);
+                while (tryPassFirstViewToPrevious(child, previous)) {}
             }
 
             // Check if the next page wants to give this page its first child.
-            if (!last) {
+            index = mPages.indexOf(child);
+            boolean last = index == getPageCount() - 1;
+            if (index >= 0 && !last) {
                 LOG.v("onSpaceAvailable:", "trying to accept from page", child.getNumber() + 1);
-                DocumentPage next = mPages.get(which + 1);
-                if (tryPassFirstViewToPrevious(next, child)) return;
+                DocumentPage next = mPages.get(index + 1);
+                while (tryPassFirstViewToPrevious(next, child)) {}
             }
         }
     }
