@@ -13,7 +13,7 @@ ViewPrinter lets you preview, edit and print View hierarchies, be it graphics, t
 or whatever you can draw in Android.
 
 ```groovy
-compile 'com.otaliastudios:viewprinter:0.1.1'
+compile 'com.otaliastudios:viewprinter:0.1.2'
 ```
 
 <p>
