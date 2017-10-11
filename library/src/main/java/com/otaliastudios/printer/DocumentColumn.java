@@ -96,8 +96,15 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
     public void onSpaceOver(DocumentColumn child) {
         // This can be called by child TextViews or EditText that grown
         // to be too small. See DocumentTextHelper.
-        mLog.w("notifyTooSmall:", "one of our children says is smaller than he would like to.");
-        getRoot().onSpaceOver(this);
+        // Go out of the layout pass... see onSpaceAvailable
+        mLog.w("onSpaceOver:", "one of our children says is smaller than he would like to.");
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mLog.v("onSpaceOver:", "Performing.");
+                getRoot().onSpaceOver(DocumentColumn.this);
+            }
+        });
     }
 
     //endregion
@@ -203,14 +210,24 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
         int oldHeight = oldBottom - oldTop;
         int newHeight = bottom - top;
         mAvailableSpace = mHeightBound - newHeight;
-        mLog.v("onLayoutChange:", "oldHeight:", oldHeight, "newHeight:", newHeight, "avSpace:", mAvailableSpace);
+        final int pn = getRoot().getNumber();
+        mLog.v("onLayoutChange:", "page:", pn, "oldHeight:", oldHeight, "newHeight:", newHeight, "avSpace:", mAvailableSpace);
 
         if (oldHeight == 0) return; // First pass.
         if (newHeight == oldHeight) return; // Not really changed. This happens.
         if (newHeight > oldHeight) return; // Nothing to do, hope we get calls to notifyTooSmall.
         if (mAvailableSpace <= 0) return;
-        mLog.i("onLayoutChange:", "dispatching onSpaceAvailable.");
-        getRoot().onSpaceAvailable(this, mAvailableSpace);
+
+        // Go out of the layout pass, it's not safe to pass views around during layout,
+        // even if you use addViewInLayout or removeViewInLayout.
+        final int availableSpace = mAvailableSpace;
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mLog.i("onLayoutChange:", "page:", pn, "dispatching onSpaceAvailable.");
+                getRoot().onSpaceAvailable(DocumentColumn.this, availableSpace);
+            }
+        });
     }
 
     @Override

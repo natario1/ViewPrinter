@@ -52,7 +52,8 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
             // bound when measuring themselves, so it's not important.
             // We also want width=0 and gravity=1.
             DocumentColumn column = new DocumentColumn(context, i + 1, columnSize[0], columnSize[1]);
-            addView(column, new LayoutParams(0, columnSize[1], 1));
+            // addView(column, new LayoutParams(0, columnSize[1], 1));
+            addView(column, new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             mColumns.add(column);
         }
     }
@@ -274,17 +275,19 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
         if (!first) {
             mLog.v("onSpaceAvailable:", "trying to pass to column", child.getNumber() - 1);
             DocumentColumn previous = mColumns.get(which - 1);
-            if (tryPassFirstViewToPrevious(child, previous)) return;
+            while (tryPassFirstViewToPrevious(child, previous)) {} // Try until it stops
         }
 
         // Check if the next page wants to give this page its first child.
         if (!last) {
             mLog.v("onSpaceAvailable:", "trying to accept from column", child.getNumber() + 1);
             DocumentColumn next = mColumns.get(which + 1);
-            if (tryPassFirstViewToPrevious(next, child)) return;
+            while (tryPassFirstViewToPrevious(next, child)) {} // try until it stops
+        } else {
+            // TODO: the 'space' value at this point might not be meaningful
+            // (might be bigger if we gave something to previous column). But it's unused
+            getRoot().onSpaceAvailable(this, space);
         }
-
-        if (last) getRoot().onSpaceAvailable(this, space);
     }
 
 
