@@ -1,20 +1,14 @@
 package com.otaliastudios.printer;
 
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
-import android.os.Build;
 import android.os.Handler;
 import android.print.PrintAttributes;
 import android.print.pdf.PrintedPdfDocument;
 import android.support.annotation.NonNull;
-import android.view.ViewTreeObserver;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -61,7 +55,7 @@ public final class PdfPrinter extends Printer {
 
         if (mDocument.getPageCount() == 0) return;
         DocumentPage firstPage = mDocument.getPageAt(0);
-        PrintSize size = mDocument.getPdfSize();
+        PrintSize size = mDocument.getPrintSize();
 
         // Create doc
         PrintAttributes attrs = new PrintAttributes.Builder()

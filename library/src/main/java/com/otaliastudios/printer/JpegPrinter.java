@@ -30,7 +30,7 @@ public final class JpegPrinter extends BitmapPrinter {
     }
 
     @Override
-    protected int getQuality() {
+    protected int getPrintQuality() {
         return mQuality;
     }
 
@@ -41,8 +41,34 @@ public final class JpegPrinter extends BitmapPrinter {
      * @see Bitmap#compress(Bitmap.CompressFormat, int, OutputStream)
      * @param quality a 1 to 100 value
      */
-    public void setQuality(int quality) {
+    public void setPrintQuality(int quality) {
         mQuality = quality;
+    }
+
+    /**
+     * Sets the numbers of the pages which should be printed.
+     * To print all pages (which is the default), you can pass {@link #PRINT_ALL}
+     * as the only parameter.
+     *
+     * @param pageNumbers any number of pages to be printed
+     */
+    @Override
+    public void setPrintPages(int... pageNumbers) {
+        super.setPrintPages(pageNumbers);
+    }
+
+    /**
+     * This will apply a scale (0...1) to the document print size, so that the result image
+     * is scaled to a smaller version. Defaults to 1, meaning that the output size is the
+     * document {@link PrintSize}.
+     * <p>
+     * This is useful, for example, for keeping cached previews of the documents.
+     *
+     * @param scale a scale greater than 0 and less than or equal to 1
+     */
+    @Override
+    public void setPrintScale(float scale) {
+        super.setPrintScale(scale);
     }
 
     /**
