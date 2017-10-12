@@ -33,6 +33,8 @@ abstract class BitmapPrinter extends Printer {
     private boolean mPrintAll;
     private int[] mPrintable;
     private float mScale = 1f;
+    private int mScaleMaxWidth = Integer.MAX_VALUE;
+    private int mScaleMaxHeight = Integer.MAX_VALUE;
 
     BitmapPrinter(int permissionCode,
                   @NonNull Bitmap.CompressFormat compressFormat, @NonNull String format,
@@ -60,7 +62,7 @@ abstract class BitmapPrinter extends Printer {
     }
 
     /**
-     * This will apply a scale (0...1) to the document print size, so that the result image
+     * This will apply a down scale (0...1) to the document print size, so that the result image
      * is scaled to a smaller version. Defaults to 1, meaning that the output size is the
      * document {@link PrintSize}.
      *
@@ -73,6 +75,24 @@ abstract class BitmapPrinter extends Printer {
             throw new IllegalArgumentException("Print scale must be > 0 and <= 1.");
         }
         mScale = scale;
+    }
+
+    /**
+     * This will apply a down scale to the document print size, so that the result image
+     * is scaled down to respect the given limits. Defaults to {@link Integer#MAX_VALUE},
+     * meaning that the output size is the document {@link PrintSize}.
+     *
+     * This is useful, for example, for keeping cached previews of the documents.
+     *
+     * @param maxWidth the max allowed width
+     * @param maxHeight the max allowed height
+     */
+    public void setPrintScale(int maxWidth, int maxHeight) {
+        if (maxWidth <= 0 || maxHeight <= 0) {
+            throw new IllegalArgumentException("Print scale bounds must be > 0.");
+        }
+        mScaleMaxWidth = maxWidth;
+        mScaleMaxHeight = maxHeight;
     }
 
     protected abstract int getPrintQuality();
@@ -106,15 +126,20 @@ abstract class BitmapPrinter extends Printer {
 
             PrintSize size = mDocument.getPrintSize();
             final Bitmap bitmap;
-            final int outWidth = (int) ((float) size.widthPixels(context) * mScale);
-            final int outHeight = (int) ((float) size.heightPixels(context) * mScale);
+            float realWidth = size.widthPixels(context);
+            float realHeight = size.heightPixels(context);
+            float scale = mScale;
+            scale = Math.min(scale, (float) mScaleMaxWidth / realWidth);
+            scale = Math.min(scale, (float) mScaleMaxHeight / realHeight);
+            final int outWidth = (int) ((float) size.widthPixels(context) * scale);
+            final int outHeight = (int) ((float) size.heightPixels(context) * scale);
             if (Build.VERSION.SDK_INT >= 26) {
                 bitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888, true);
             } else {
                 bitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888);
             }
             Canvas canvas = new Canvas(bitmap);
-            canvas.scale(mScale, mScale);
+            canvas.scale(scale, scale);
             DocumentPage view = mDocument.getPageAt(page);
             Drawable background = null;
             if (!mPrintBackground) {
