@@ -131,8 +131,8 @@ abstract class BitmapPrinter extends Printer {
             float scale = mScale;
             scale = Math.min(scale, (float) mScaleMaxWidth / realWidth);
             scale = Math.min(scale, (float) mScaleMaxHeight / realHeight);
-            final int outWidth = (int) ((float) size.widthPixels(context) * scale);
-            final int outHeight = (int) ((float) size.heightPixels(context) * scale);
+            final int outWidth = (int) (realWidth * scale);
+            final int outHeight = (int) (realHeight * scale);
             if (Build.VERSION.SDK_INT >= 26) {
                 bitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888, true);
             } else {
