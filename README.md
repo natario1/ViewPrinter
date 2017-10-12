@@ -246,6 +246,7 @@ public void onRequestPermissionsResult(int requestCode, @NonNull String[] permis
 
 ```java
 mPrinter = new PdfPrinter(mDocumentView, mPrintCallback);
+mPrinter.setPrintPageBackground(true);
 mPrinter.print("id", mFile, "document.pdf");
 ```
 
@@ -259,27 +260,38 @@ which defaults to `true`.
 
 ```java
 mPrinter = new PngPrinter(mDocumentView, mPrintCallback);
-mPrinter.setPrintablePages(PngPrinter.PRINTABLE_ALL);
+mPrinter.setPrintPageBackground(true);
+mPrinter.setPrintPages(PRINT_ALL);
+mPrinter.setPrintScale(1f);
 mPrinter.print("id", mFile, "my-image");
 ```
 
-The only difference here is that, if the document has multiple pages (e.g. 3), we will save three
-different files: `my-image-1.png`, `my-image-2.png`, `my-image-3.png`.
+Image printers have a couple differences with the `PdfPrinter`:
 
-This also means that the `PrintCallback` will be called three times, each time passing the 
-actual image file instance. You can choose which pages are saved using `setPrintablePages`.
+- You can choose which pages to print (defaults to all) using `setPrintPages(int...)`.
+  If more than one are selected, we will save separate files in your directory, e.g.
+  `my-image-1.png`, `my-image-2.png`, `my-image-3.png`.
+
+- This also means that the `PrintCallback` can be called multiple times, each time passing
+  the actual image file.
+  
+- You can downscale the resulting image using `setPrintScale(float)`, defaults to 1. For instance,
+  this is useful for caching low-quality previews. A `1000x1000` image with a `0.5` scale will
+  result in a `500x500` file.
 
 ### JpegPrinter
 
 ```java
 mPrinter = new JpegPrinter(mDocumentView, mPrintCallback);
-mPrinter.setPrintablePages(JpegPrinter.PRINTABLE_ALL);
-mPrinter.setQuality(90);
+mPrinter.setPrintPageBackground(true);
+mPrinter.setPrintablePages(PRINT_ALL);
+mPrinter.setPrintScale(1f);
+mPrinter.setPrintQuality(90);
 mPrinter.print("id", mFile, "my-image");
 ```
 
-On top of the `PngPrinter` functionality, this will let you specify a compression quality
-using `mPrinter.setQuality()`.
+On top of the `PngPrinter` functionality, this will let you specify a JPEG compression quality
+using `mPrinter.setPrintQuality()`.
 
 # Contributions
 

@@ -300,7 +300,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
         }
     }
 
-    PrintSize getPdfSize() {
+    PrintSize getPrintSize() {
         return mSize;
     }
 

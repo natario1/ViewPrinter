@@ -48,12 +48,12 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
         setWeightSum(mColumnCount);
         mColumns = new ArrayList<>(mColumnCount);
         for (int i = 0; i < mColumnCount; i++) {
-            // Columns can be WRAP_CONTENT. If we are not, they will receive our AT_MOST
-            // bound when measuring themselves, so it's not important.
+            // Columns can be WRAP_CONTENT in height if the page size is WRAP_CONTENT.
+            // If the page is not, we must provide and update the exact dimension,
+            // to have MATCH_PARENT work in final children.
             // We also want width=0 and gravity=1.
             DocumentColumn column = new DocumentColumn(context, i + 1, columnSize[0], columnSize[1]);
-            // addView(column, new LayoutParams(0, columnSize[1], 1));
-            addView(column, new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+            addView(column, new LayoutParams(0, columnSize[1], 1));
             mColumns.add(column);
         }
     }
@@ -86,7 +86,9 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
         // This changes the column dimensions. Recompute.
         int[] size = computeColumnSize();
         for (DocumentColumn col : mColumns) {
+            col.getLayoutParams().height = size[1];
             col.setBounds(size[0], size[1]);
+            col.requestLayout();
         }
     }
 

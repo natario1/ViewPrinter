@@ -23,15 +23,16 @@ abstract class BitmapPrinter extends Printer {
     private static final PrinterLogger LOG = PrinterLogger.create(TAG);
 
     /**
-     * Constant for {@link #setPrintablePages(int...)} to say that we want to print
+     * Constant for {@link #setPrintPages(int...)} to say that we want to print
      * all pages. This is actually the default.
      */
-    public static final int PRINTABLE_ALL = -1;
+    public static final int PRINT_ALL = -1;
 
     private Bitmap.CompressFormat mCompressFormat;
     private String mFormat;
     private boolean mPrintAll;
     private int[] mPrintable;
+    private float mScale = 1f;
 
     BitmapPrinter(int permissionCode,
                   @NonNull Bitmap.CompressFormat compressFormat, @NonNull String format,
@@ -44,13 +45,13 @@ abstract class BitmapPrinter extends Printer {
 
     /**
      * Sets the numbers of the pages which should be printed.
-     * To print all pages (which is the default), you can pass {@link #PRINTABLE_ALL}
+     * To print all pages (which is the default), you can pass {@link #PRINT_ALL}
      * as the only parameter.
      *
      * @param pageNumbers any number of pages to be printed
      */
-    public final void setPrintablePages(int... pageNumbers) {
-        if (pageNumbers.length == 1 && pageNumbers[0] == PRINTABLE_ALL) {
+    public void setPrintPages(int... pageNumbers) {
+        if (pageNumbers.length == 1 && pageNumbers[0] == PRINT_ALL) {
             mPrintAll = true;
         } else {
             mPrintAll = false;
@@ -58,7 +59,23 @@ abstract class BitmapPrinter extends Printer {
         }
     }
 
-    protected abstract int getQuality();
+    /**
+     * This will apply a scale (0...1) to the document print size, so that the result image
+     * is scaled to a smaller version. Defaults to 1, meaning that the output size is the
+     * document {@link PrintSize}.
+     *
+     * This is useful, for example, for keeping cached previews of the documents.
+     *
+     * @param scale a scale greater than 0 and less than or equal to 1
+     */
+    public void setPrintScale(float scale) {
+        if (scale <= 0 || scale > 1) {
+            throw new IllegalArgumentException("Print scale must be > 0 and <= 1.");
+        }
+        mScale = scale;
+    }
+
+    protected abstract int getPrintQuality();
 
     @Override
     public void print(final String printId, @NonNull final File directory, @NonNull String filename) {
@@ -87,16 +104,17 @@ abstract class BitmapPrinter extends Printer {
                 return; // Error!
             }
 
-            PrintSize size = mDocument.getPdfSize();
+            PrintSize size = mDocument.getPrintSize();
             final Bitmap bitmap;
+            final int outWidth = (int) ((float) size.widthPixels(context) * mScale);
+            final int outHeight = (int) ((float) size.heightPixels(context) * mScale);
             if (Build.VERSION.SDK_INT >= 26) {
-                bitmap = Bitmap.createBitmap(size.widthPixels(context),
-                        size.heightPixels(context), Bitmap.Config.ARGB_8888, true);
+                bitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888, true);
             } else {
-                bitmap = Bitmap.createBitmap(size.widthPixels(context),
-                        size.heightPixels(context), Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createBitmap(outWidth, outHeight, Bitmap.Config.ARGB_8888);
             }
             Canvas canvas = new Canvas(bitmap);
+            canvas.scale(mScale, mScale);
             DocumentPage view = mDocument.getPageAt(page);
             Drawable background = null;
             if (!mPrintBackground) {
@@ -119,7 +137,7 @@ abstract class BitmapPrinter extends Printer {
                 @Override
                 public void run() {
                     try (OutputStream stream = new BufferedOutputStream(new FileOutputStream(file))) {
-                        bitmap.compress(mCompressFormat, getQuality(), stream);
+                        bitmap.compress(mCompressFormat, getPrintQuality(), stream);
                         bitmap.recycle();
                         ui.post(new Runnable() {
                             @Override
