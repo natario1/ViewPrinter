@@ -230,7 +230,10 @@ You must have appropriate permissions to write the file in that location.
 On Marshmallow+, these permissions must be explicitly asked to the user.
 
 The library currently will automatically ask the `READ_EXTERNAL_STORAGE` and `WRITE_EXTERNAL_STORAGE`
-permissions (this can be improved though). Make sure you implement `onRequestPermissionResult`:
+permissions if the output file appears to be in the external storage. Make sure you
+
+- declare these permissions in your manifest
+- implement `onRequestPermissionResult` as such:
 
 ```java
 @Override

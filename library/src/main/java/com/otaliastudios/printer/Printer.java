@@ -7,12 +7,16 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * A general interface for engines that can print view hierarchies to some sort or file or folder.
@@ -57,7 +61,16 @@ public abstract class Printer {
         return true;
     }
 
-    boolean checkPermission(Context context) {
+    boolean checkPermission(Context context, File directory) {
+        // Check external permissions... But only if the directory is external.
+        // For external dirs, this still implies that the developers add the permissions to their manifest.
+
+        // Could be better, but anyway..
+        File ext = Environment.getExternalStorageDirectory();
+        if (!directory.getAbsolutePath().startsWith(ext.getAbsolutePath())) {
+            return true; // Not external
+        }
+
         if (Build.VERSION.SDK_INT < 23) return true;
 
         String[] permissions = new String[2];

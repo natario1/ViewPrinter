@@ -100,11 +100,11 @@ abstract class BitmapPrinter extends Printer {
     @Override
     public void print(final String printId, @NonNull final File directory, @NonNull String filename) {
         Context context = mDocument.getContext();
-        if (!checkPermission(context)) return;
+        if (!checkPermission(context, directory)) return;
         if (!checkPreview(printId, directory, filename)) return;
 
         if (filename.toLowerCase().endsWith(mFormat)) {
-            filename = filename.substring(0, filename.length() - 4);
+            filename = filename.substring(0, filename.length() - mFormat.length());
         }
         if (mDocument.getPageCount() == 0) return;
 
