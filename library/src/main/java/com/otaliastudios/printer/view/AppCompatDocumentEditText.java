@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
-import com.otaliastudios.printer.DocumentTextHelper;
+import com.otaliastudios.printer.DocumentHelper;
 import com.otaliastudios.printer.DocumentView;
 
 /**
@@ -15,7 +15,7 @@ import com.otaliastudios.printer.DocumentView;
  * Don't use if you don't have appcompat in your classpath.
  *
  * @see AppCompatDocumentTextView
- * @see DocumentTextHelper
+ * @see DocumentHelper
  */
 public class AppCompatDocumentEditText extends AppCompatEditText {
 
@@ -34,6 +34,6 @@ public class AppCompatDocumentEditText extends AppCompatEditText {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        DocumentTextHelper.onLayout(this);
+        DocumentHelper.onLayout(this);
     }
 }
