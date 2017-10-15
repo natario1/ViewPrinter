@@ -163,8 +163,9 @@ A few notes:
 - For text, please use `DocumentTextView`: it will notify the parent when it gets bigger.
 - For editable text, please use `DocumentEditText`: same as above.
 - If using app compat, you might want to use the `AppCompat-` version of these widgets.
-- We can't split text of a single view into multiple pages or columns. 
+- We can't split text of a single view into multiple pages or columns (for now).
   It is your responsibility to have Views that are small enough to avoid blank spaces.
+- For custom views, take a look at `DocumentHelper` methods.
 
 To enable columns, use `document.setColumnsPerPage(int)` or the XML attribute `app:columnsPerPage`.
 
@@ -230,7 +231,10 @@ You must have appropriate permissions to write the file in that location.
 On Marshmallow+, these permissions must be explicitly asked to the user.
 
 The library currently will automatically ask the `READ_EXTERNAL_STORAGE` and `WRITE_EXTERNAL_STORAGE`
-permissions (this can be improved though). Make sure you implement `onRequestPermissionResult`:
+permissions if the output file appears to be in the external storage. Make sure you
+
+- declare these permissions in your manifest
+- implement `onRequestPermissionResult` as such:
 
 ```java
 @Override

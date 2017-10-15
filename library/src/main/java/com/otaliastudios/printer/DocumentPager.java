@@ -326,7 +326,7 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
     }
 
     @Override
-    public void onSpaceAvailable(DocumentPage child, int space) {
+    public void onSpaceAvailable(DocumentPage child) {
         Utils.clearUntakableView(child);
         LOG.i("onSpaceAvailable:", "fromPage:", child.getNumber());
 

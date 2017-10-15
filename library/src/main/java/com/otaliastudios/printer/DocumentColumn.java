@@ -27,7 +27,7 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
 
     private int mWidthBound;
     private int mHeightBound;
-    private int mAvailableSpace;
+    private int mContentHeight;
     private int mColumnNumber;
 
     DocumentColumn(@NonNull Context context, int number, int widthBound, int heightBound) {
@@ -49,7 +49,6 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
     void setBounds(int widthBound, int heightBound) {
         mWidthBound = widthBound;
         mHeightBound = heightBound;
-        mAvailableSpace = mHeightBound;
     }
 
     boolean isBounded() {
@@ -88,7 +87,7 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
     }
 
     @Override
-    public void onSpaceAvailable(DocumentColumn child, int space) {
+    public void onSpaceAvailable(DocumentColumn child) {
         // We have no children so no one can call this.
     }
 
@@ -201,31 +200,32 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
     /**
      * Something changed here.
      * - did it grow? Do nothing. Due to measuring, we don't let anyone grow beyond the page size.
-     * - did it shrink and is the first? See if previous child wants it.
-     * - did it shrink? See if we should accept a view from the next child.
+     * - did it shrink? Notify we have space available.
      */
     @Override
     public void onLayoutChange(View view, int left, int top, int right, int bottom,
                                int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        int oldHeight = oldBottom - oldTop;
-        int newHeight = bottom - top;
-        mAvailableSpace = mHeightBound - newHeight;
+        // Our LayoutParams have a fixed height, see DocumentPage.
+        // So we are not going to grasp anything meaningful from bottom - top.
+        int oldHeight = mContentHeight;
+        int newHeight = getCurrentHeight();
+        int space = mHeightBound - newHeight;
         final int pn = getRoot().getNumber();
-        mLog.v("onLayoutChange:", "page:", pn, "oldHeight:", oldHeight, "newHeight:", newHeight, "avSpace:", mAvailableSpace);
+        mLog.v("onLayoutChange:", "page:", pn, "oldHeight:", oldHeight, "newHeight:", newHeight, "space:", space);
 
+        mContentHeight = newHeight;
         if (oldHeight == 0) return; // First pass.
         if (newHeight == oldHeight) return; // Not really changed. This happens.
         if (newHeight > oldHeight) return; // Nothing to do, hope we get calls to notifyTooSmall.
-        if (mAvailableSpace <= 0) return;
+        if (space <= 0) return;
 
         // Go out of the layout pass, it's not safe to pass views around during layout,
         // even if you use addViewInLayout or removeViewInLayout.
-        final int availableSpace = mAvailableSpace;
         post(new Runnable() {
             @Override
             public void run() {
                 mLog.i("onLayoutChange:", "page:", pn, "dispatching onSpaceAvailable.");
-                getRoot().onSpaceAvailable(DocumentColumn.this, availableSpace);
+                getRoot().onSpaceAvailable(DocumentColumn.this);
             }
         });
     }

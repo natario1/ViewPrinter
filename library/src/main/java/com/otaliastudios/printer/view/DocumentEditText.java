@@ -8,16 +8,15 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import com.otaliastudios.printer.DocumentTextHelper;
+import com.otaliastudios.printer.DocumentHelper;
 import com.otaliastudios.printer.DocumentView;
-import com.otaliastudios.printer.view.DocumentTextView;
 
 /**
  * An {@link EditText} implementation that works well when laid out inside
  * a {@link DocumentView}.
  *
  * @see DocumentTextView
- * @see DocumentTextHelper
+ * @see DocumentHelper
  */
 @SuppressLint("AppCompatCustomView")
 public class DocumentEditText extends EditText {
@@ -42,6 +41,6 @@ public class DocumentEditText extends EditText {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        DocumentTextHelper.onLayout(this);
+        DocumentHelper.onLayout(this);
     }
 }

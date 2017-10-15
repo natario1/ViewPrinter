@@ -9,32 +9,42 @@ import com.otaliastudios.printer.view.DocumentEditText;
 import com.otaliastudios.printer.view.DocumentTextView;
 
 /**
- * Static utilities for text containers that might become smaller than they would like to,
- * without notifying the parent.
+ * Static utilities for views that might become smaller than they would like to,
+ * without notifying the parent. In that case we want to move them to the next page, for example.
  *
- * It is recommended that they call {@link #onLayout(View)} here to have our splitting
- * policy working.
+ * It is recommended that these views call {@link #onLayout(View)} to let us determine if they would
+ * like to be bigger, or {@link #onSpaceOver(View)} if they have already determined that.
  *
- * @see DocumentTextView
- * @see DocumentEditText
  */
-public class DocumentTextHelper {
+public class DocumentHelper {
 
-    private final static String TAG = DocumentTextHelper.class.getSimpleName();
+    private final static String TAG = DocumentHelper.class.getSimpleName();
     private final static PrinterLogger LOG = PrinterLogger.create(TAG);
 
+    /**
+     * To be called after the View has been laid out. If the view is presumably to small,
+     * this will call {@link #onSpaceOver(View)} for you.
+     *
+     * @param view The view that has been laid out
+     */
     public static void onLayout(View view) {
         if (view.getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            LOG.i("onLayout:", "We are wrap content. Looking if we can scroll.");
             // TODO: don't do this if getMaxLines is >= 0 (< MAX_VALUE). Same for getMaxheight.
             if (view.canScrollVertically(-1) || view.canScrollVertically(1)) {
                 LOG.w("onLayout:", "We can scroll. Notifying the parent column.");
-                notifyContainer(view);
+                onSpaceOver(view);
             }
         }
     }
 
-    private static void notifyContainer(View view) {
+    /**
+     * Notifies the {@link DocumentView} that this view would like to be bigger than
+     * it actually is. This might trigger a re-layout, for example moving the view to the
+     * next page.
+     *
+     * @param view The view that would like to be bigger
+     */
+    public static void onSpaceOver(View view) {
         Container<?, ?> container = null;
         View current = view;
         while (true) {

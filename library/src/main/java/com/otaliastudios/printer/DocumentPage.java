@@ -266,7 +266,7 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
     }
 
     @Override
-    public void onSpaceAvailable(DocumentColumn child, int space) {
+    public void onSpaceAvailable(DocumentColumn child) {
         Utils.clearUntakableView(child);
         mLog.i("onSpaceAvailable:", "fromColumn:", child.getNumber());
 
@@ -286,9 +286,7 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
             DocumentColumn next = mColumns.get(which + 1);
             while (tryPassFirstViewToPrevious(next, child)) {} // try until it stops
         } else {
-            // TODO: the 'space' value at this point might not be meaningful
-            // (might be bigger if we gave something to previous column). But it's unused
-            getRoot().onSpaceAvailable(this, space);
+            getRoot().onSpaceAvailable(this);
         }
     }
 
