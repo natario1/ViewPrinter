@@ -19,7 +19,7 @@ import java.io.File;
  */
 public final class PngPrinter extends BitmapPrinter {
 
-    private static final int PERMISSION_CODE = 284;
+    public static final int PERMISSION_CODE = 284;
     private static final String TAG = PngPrinter.class.getSimpleName();
 
     public PngPrinter(@NonNull DocumentView document, @NonNull PrintCallback callback) {
