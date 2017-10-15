@@ -29,7 +29,7 @@ import java.io.OutputStream;
  */
 public final class PdfPrinter extends Printer {
 
-    private static final int PERMISSION_CODE = 283;
+    public static final int PERMISSION_CODE = 283;
     private static final String TAG = PdfPrinter.class.getSimpleName();
 
     public PdfPrinter(@NonNull DocumentView document, @NonNull PrintCallback callback) {

@@ -39,7 +39,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * collecting all the views, removing them, and adding them to a new shaped layout.
  * The same is true for other APIs as well.
  */
-public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListener {
+public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListener, DocumentCallback {
 
     // Internal note: the whole hierarchy currently relies on the fact that all columns are equal
     // Think for example of the Untakable flag which is persisted among columns.
@@ -68,6 +68,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
     @IntDef({ PAGER_TYPE_HORIZONTAL, PAGER_TYPE_VERTICAL })
     public @interface PagerType {}
 
+    private DocumentCallback mCallback;
     private DocumentPager mPager;
     private PrintSize mSize;
     private View mFocusedView;
@@ -113,6 +114,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
         a.recycle();
 
         mPager = new DocumentPager(context);
+        mPager.setDocumentCallback(this);
         addView(mPager, WRAP_CONTENT, WRAP_CONTENT);
 
         setPageElevation(elevation);
@@ -145,7 +147,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
      * @param callback the callback
      */
     public void setDocumentCallback(@Nullable DocumentCallback callback) {
-        mPager.setDocumentCallback(callback);
+        mCallback = callback;
     }
 
     @Override
@@ -167,6 +169,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
      */
     public void setPagerType(@PagerType int type) {
         mPager.setType(type);
+        checkOverScrollDirection();
     }
 
     /**
@@ -422,6 +425,35 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
     public void onIdle(ZoomEngine e) {
         super.onIdle(e);
         LOG.i("onIdle", "panX:", e.getPanX(), "panY:", e.getPanY(), "realZoom:", e.getRealZoom());
+    }
+
+    //endregion
+
+    //region DocumentCallback
+
+    @Override
+    public void onPageCreated(int number) {
+        if (mCallback != null) mCallback.onPageCreated(number);
+        checkOverScrollDirection();
+    }
+
+    @Override
+    public void onPageDestroyed(int number) {
+        if (mCallback != null) mCallback.onPageDestroyed(number);
+        checkOverScrollDirection();
+    }
+
+    // When pageCount > 1, don't let overScroll in the wrong direction.
+    private void checkOverScrollDirection() {
+        int pageCount = getPageCount();
+        int direction = mPager.getType();
+        if (pageCount > 1) {
+            getEngine().setOverScrollHorizontal(direction == PAGER_TYPE_HORIZONTAL);
+            getEngine().setOverScrollVertical(direction == PAGER_TYPE_VERTICAL);
+        } else {
+            getEngine().setOverScrollHorizontal(true);
+            getEngine().setOverScrollVertical(true);
+        }
     }
 
     //endregion

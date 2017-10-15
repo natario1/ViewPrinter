@@ -20,7 +20,7 @@ import java.io.OutputStream;
  */
 public final class JpegPrinter extends BitmapPrinter {
 
-    private static final int PERMISSION_CODE = 285;
+    public static final int PERMISSION_CODE = 285;
     private static final String TAG = JpegPrinter.class.getSimpleName();
 
     private int mQuality = 100;

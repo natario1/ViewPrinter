@@ -136,6 +136,14 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
         setDividerDrawable(drawable);
     }
 
+    int getType() {
+        switch (getOrientation()) {
+            case HORIZONTAL: return TYPE_HORIZONTAL;
+            case VERTICAL: return TYPE_VERTICAL;
+        }
+        return -1;
+    }
+
     void setPageDividerWidth(int width) {
         // Must instantiate a new drawable every time, or LL won't update the dimension.
         DividerDrawable drawable = new DividerDrawable(getDividerDrawable());
