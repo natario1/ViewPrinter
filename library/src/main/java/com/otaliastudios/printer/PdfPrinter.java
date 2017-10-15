@@ -47,7 +47,7 @@ public final class PdfPrinter extends Printer {
     @Override
     public void print(final String printId, @NonNull final File directory, @NonNull String filename) {
         Context context = mDocument.getContext();
-        if (!checkPermission(context)) return;
+        if (!checkPermission(context, directory)) return;
         if (!checkPreview(printId, directory, filename)) return;
         if (!filename.toLowerCase().endsWith(".pdf")) filename += ".pdf";
         final File file = new File(directory, filename);

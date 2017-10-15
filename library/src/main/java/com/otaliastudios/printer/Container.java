@@ -110,9 +110,8 @@ interface Container<Root extends Container, Child extends Container> {
      * - check if {@code child} can get some views from the next child
      *
      * @param child the container notifying us
-     * @param space the available space
      */
-    void onSpaceAvailable(Child child, int space);
+    void onSpaceAvailable(Child child);
 
     /**
      * Our child notifies that he has no more space, and some of the views would actually
