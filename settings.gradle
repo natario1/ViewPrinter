@@ -1,4 +1,4 @@
 include ':demo', ':library'
-// include ':zoomlayout'
-// project(':zoomlayout').projectDir = new File(settingsDir, '../ZoomLayout/library')
+include ':zoomlayout'
+project(':zoomlayout').projectDir = new File(settingsDir, '../ZoomLayout/library')
 
