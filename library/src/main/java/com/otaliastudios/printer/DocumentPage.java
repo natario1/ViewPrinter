@@ -1,5 +1,6 @@
 package com.otaliastudios.printer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -14,7 +15,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@SuppressLint("ViewConstructor")
 class DocumentPage extends LinearLayout implements Container<DocumentPager, DocumentColumn> {
 
     private final static String TAG = DocumentPage.class.getSimpleName();

@@ -1,5 +1,6 @@
 package com.otaliastudios.printer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import java.util.List;
  * Bounds are the available dimensions. For a single column page, it's the page size minus
  * the page inset (padding).
  */
+@SuppressLint("ViewConstructor")
 class DocumentColumn extends LinearLayout implements Container<DocumentPage, DocumentColumn>,
         View.OnLayoutChangeListener {
 

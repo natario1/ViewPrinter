@@ -10,7 +10,15 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
-class AutoSplitTextView extends DocumentTextView implements AutoSplitView {
+/**
+ * A {@link DocumentTextView} that implements the {@link AutoSplitView}
+ * interface. This means that this view will split its content through a chain of
+ * clone views, that might be moved to different columns or even pages.
+ *
+ * @see AutoSplitView
+ * @see AutoSplitTextHelper
+ */
+public class AutoSplitTextView extends DocumentTextView implements AutoSplitView {
 
     private static final String TAG = AutoSplitTextView.class.getSimpleName();
     private static final PrinterLogger LOG = PrinterLogger.create(TAG);
