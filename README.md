@@ -27,7 +27,7 @@ compile 'com.otaliastudios:viewprinter:0.2.1'
 - [`DocumentView`](#documentview) : a live preview container for editable, zoomable, pannable views.
 - Automatic splitting into separate pages
 - Automatic splitting into separate page columns
-- `AutoSplitTextView` and `AutoSplitEditText` to split text into separate views
+- [`AutoSplitTextView`](#text-content) and [`AutoSplitEditText`](#text-content) to split text into separate views
 - Standardized or custom [`PrintSize`](#printsize)s, or even wrap content
 - [`PdfPrinter`](#pdfprinter) prints document to PDF respecting pages
 - [`JpegPrinter`](#jpegprinter) and [`PngPrinter`](#pngprinter) to print single pages
@@ -181,7 +181,7 @@ The auto-split funcionality acts on three layers:
 
 - Views are distributed over [pages](#pagination)
 - Views are distributed over [columns](#columns)
-- [Text content](#text content) is distributed over multiple views
+- [Text content](#text-content) is distributed over multiple views
 
 ### Pagination
 
