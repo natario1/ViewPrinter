@@ -52,7 +52,7 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
             // If the page is not, we must provide and update the exact dimension,
             // to have MATCH_PARENT work in final children.
             // We also want width=0 and gravity=1.
-            DocumentColumn column = new DocumentColumn(context, i + 1, columnSize[0], columnSize[1]);
+            DocumentColumn column = new DocumentColumn(context, number, i + 1, columnSize[0], columnSize[1]);
             addView(column, new LayoutParams(0, columnSize[1], 1));
             mColumns.add(column);
         }
@@ -84,11 +84,11 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
     void setPageInset(int insetStart, int insetTop, int insetEnd, int insetBottom) {
         setPaddingRelative(insetStart, insetTop, insetEnd, insetBottom);
         // This changes the column dimensions. Recompute.
+        // The column will request it's own re-layout.
         int[] size = computeColumnSize();
         for (DocumentColumn col : mColumns) {
             col.getLayoutParams().height = size[1];
             col.setBounds(size[0], size[1]);
-            col.requestLayout();
         }
     }
 
@@ -119,6 +119,22 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
     @Override
     public List<DocumentColumn> getChildren() {
         return mColumns;
+    }
+
+    @Nullable
+    @Override
+    public DocumentColumn getSibling(DocumentColumn current) {
+        int index = mColumns.indexOf(current);
+        int next = index + 1;
+        if (next < mColumns.size()) {
+            return mColumns.get(next);
+        }
+        DocumentPage page = getRoot().getSibling(this);
+        if (page != null) {
+            return page.getChildren().get(0);
+        } else {
+            return null;
+        }
     }
 
     private int getLastNonEmptyColumn() {
@@ -248,6 +264,16 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
     }
 
     @Override
+    public List<View> collect() {
+        List<View> list = new ArrayList<>();
+        for (DocumentColumn col : mColumns) {
+            removeView(col);
+            list.addAll(col.collect());
+        }
+        return list;
+    }
+
+    @Override
     public void release(View view) {
         for (DocumentColumn col : mColumns) {
             if (col.contains(view)) {
@@ -280,7 +306,7 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
             while (tryPassFirstViewToPrevious(child, previous)) {} // Try until it stops
         }
 
-        // Check if the next page wants to give this page its first child.
+        // Check if the nextView page wants to give this page its first child.
         if (!last) {
             mLog.v("onSpaceAvailable:", "trying to accept from column", child.getNumber() + 1);
             DocumentColumn next = mColumns.get(which + 1);
@@ -317,6 +343,7 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
     public void onSpaceOver(DocumentColumn column) {
         // This child was not OK in the column it came from.
         // If this is called, we are probably wrap content.
+        if (column.getViewCount() == 0) return; // <- happens during collects..
         mLog.i("onSpaceOver:", "triggered by column", column.getNumber());
         int which = mColumns.indexOf(column);
         boolean last = which == mColumnCount - 1;

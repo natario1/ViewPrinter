@@ -21,7 +21,7 @@ import java.io.OutputStream;
  * to a PDF file - just pass the file to {@link #print(String, File, String)}.
  *
  * The only requirement currently is for the view to be actually attached to a window.
- * The printer will wait for the next layout pass if necessary.
+ * The printer will wait for the nextView layout pass if necessary.
  *
  * The printer will try to automatically request write and read permissions for your file,
  * but you need to pass the result of {@link #onRequestPermissionRequest(int, String[], int[])}

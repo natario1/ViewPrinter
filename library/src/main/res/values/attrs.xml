@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="AutoSplitEditText">
+        <attr name="chainBackground" format="enum">
+            <enum name="whenFocused" value="0" />
+            <enum name="always" value="1" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="DocumentView">
 
         <attr name="pageElevation" format="dimension" />

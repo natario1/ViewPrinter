@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 app:columnsPerPage="1"
                 app:pageBackground="@android:color/white"
-                app:pagerType="horizontal"
+                app:pagerType="vertical"
                 app:pageDividerWidth="0.3in"
                 app:pageElevation="0.03in"
                 app:pageInset="24pt"

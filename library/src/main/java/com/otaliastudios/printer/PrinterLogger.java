@@ -67,7 +67,7 @@ public final class PrinterLogger {
 
     void e(String message) {
         if (should(LEVEL_ERROR)) {
-            Log.w(mTag, message);
+            Log.e(mTag, message);
             lastMessage = message;
             lastTag = mTag;
         }

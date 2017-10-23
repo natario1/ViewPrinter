@@ -103,7 +103,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
         int insetStart = a.getDimensionPixelSize(R.styleable.DocumentView_pageInsetStart, 0);
         int insetEnd = a.getDimensionPixelSize(R.styleable.DocumentView_pageInsetEnd, 0);
         int insetBottom = a.getDimensionPixelSize(R.styleable.DocumentView_pageInsetBottom, 0);
-        @PagerType int pagerType = a.getInteger(R.styleable.DocumentView_pagerType, DocumentPager.TYPE_HORIZONTAL);
+        @PagerType int pagerType = a.getInteger(R.styleable.DocumentView_pagerType, DocumentPager.TYPE_VERTICAL);
         int pagerDividerWidth = a.getDimensionPixelSize(R.styleable.DocumentView_pageDividerWidth, defaultDivider);
         int columnsPerPage = a.getInteger(R.styleable.DocumentView_columnsPerPage, 1);
         @Nullable Drawable pageBackground = a.getDrawable(R.styleable.DocumentView_pageBackground);
@@ -119,10 +119,10 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
 
         setPageElevation(elevation);
         setPageInset(insetStart, insetTop, insetEnd, insetBottom);
-        setPrintSizeInternal(size);
+        setPrintSizeSync(size);
         setPagerType(pagerType);
         setPageDividerWidth(pagerDividerWidth);
-        setColumnsPerPage(columnsPerPage);
+        setColumnsPerPageSync(columnsPerPage);
         setPageBackground(pageBackground);
 
         // Pass our padding to the frame. This should be the margin between our edges
@@ -234,7 +234,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
      *
      * @param columnsPerPage the new columns per page count (1 ... 4)
      */
-    public void setColumnsPerPage(int columnsPerPage) {
+    public void setColumnsPerPage(final int columnsPerPage) {
         if (columnsPerPage <= 0 || columnsPerPage > 4) {
             throw new RuntimeException("Columns per page must be > 0 and <= 4.");
         }
@@ -242,11 +242,20 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
             throw new RuntimeException("Can't have more than 1 column when size is WRAP_CONTENT.");
         }
         if (columnsPerPage != mPager.getColumnsPerPage()) {
-            List<View> collectViews = collectViews();
-            mPager.setColumnsPerPage(columnsPerPage);
-            for (View view : collectViews) {
-                addView(view, view.getLayoutParams());
-            }
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    setColumnsPerPageSync(columnsPerPage);
+                }
+            });
+        }
+    }
+
+    private void setColumnsPerPageSync(int columnsPerPage) {
+        List<View> collectViews = collectViews();
+        mPager.setColumnsPerPage(columnsPerPage);
+        for (View view : collectViews) {
+            addView(view, view.getLayoutParams());
         }
     }
 
@@ -259,30 +268,25 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
      *
      * @param size the new print size
      */
-    public void setPrintSize(@NonNull PrintSize size) {
+    public void setPrintSize(@NonNull final PrintSize size) {
         if (size.equals(mSize)) return;
-        List<View> collectViews = collectViews();
-        setPrintSizeInternal(size);
-        for (View view : collectViews) {
-            addView(view, view.getLayoutParams());
-        }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                List<View> collectViews = collectViews();
+                setPrintSizeSync(size);
+                for (View view : collectViews) {
+                    addView(view, view.getLayoutParams());
+                }
+            }
+        });
     }
 
     private List<View> collectViews() {
-        int count = mPager.getViewCount();
-        List<View> list = new ArrayList<>(count);
-        for (int i = 0; i < count; i++) {
-            list.add(null);
-        }
-        for (int i = count - 1; i >= 0; i--) {
-            View view = mPager.getViewAt(i);
-            mPager.release(view);
-            list.set(i, view);
-        }
-        return list;
+        return mPager.collect();
     }
 
-    private void setPrintSizeInternal(PrintSize size) {
+    private void setPrintSizeSync(PrintSize size) {
         mSize = size;
         if (mSize.equals(PrintSize.WRAP_CONTENT)) {
             mPager.setColumnsPerPage(1);
@@ -347,8 +351,8 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
 
     @Override
     protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect) {
-        // TODO: don't give focus to something that is off screen.
-        // Well, theoretically we can, since in onFocusChange we are going to zoom to that view...
+        // Note: this might give focus to something that is outside the visible rect.
+        // But we can, since in onFocusChange we are going to zoom to that view...
         return super.onRequestFocusInDescendants(direction, previouslyFocusedRect);
     }
 
@@ -364,8 +368,6 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
     }
 
-    private Rect mTmpRect;
-
     private void onFocusChange(final View view) {
         if (!(view instanceof TextView)) return;
 
@@ -376,7 +378,7 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                zoomToView(view);
+                zoomToView(view, true);
                 view.removeOnLayoutChangeListener(DocumentView.this);
                 view.addOnLayoutChangeListener(DocumentView.this);
             }
@@ -391,17 +393,25 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
             int height = bottom - top;
             int oldHeight = oldBottom - oldTop;
             if (oldHeight != height) {
-                zoomToView(view);
+                zoomToView(view, false);
             }
         } else {
             view.removeOnLayoutChangeListener(this);
         }
     }
 
-    private void zoomToView(View view) {
+    private Rect mTmpRect;
+    private float mLastZoom;
+    private float mLastPanX;
+    private float mLastPanY;
+
+    private void zoomToView(View view, boolean justGotFocus) {
         if (mTmpRect == null) mTmpRect = new Rect();
         view.getDrawingRect(mTmpRect);
         offsetDescendantRectToMyCoords(view, mTmpRect);
+        // Add some padding so we are zoomed out.
+        int padding = (int) (mTmpRect.width() * 0.2f);
+        mTmpRect.inset(-padding, -padding);
 
         ZoomEngine e = getEngine();
         float focusedWidth = mTmpRect.width();
@@ -416,8 +426,19 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
         float finalViewportHeight = ourHeight * (focusedWidth / ourWidth);
         float panX = -(mTmpRect.left);
         float panY = -(mTmpRect.bottom - Math.min(focusedHeight, finalViewportHeight));
-        LOG.i("zoomToView:", "moving to panX:", panX,
-                "panY:", panY, "realZoom:", desiredRealZoom);
+
+        if (!justGotFocus) {
+            // We already had focus (=> performed our animation), but camera
+            // was changed by the user. This means we should not bother
+            // and stop following the view.
+            if (Math.abs(mLastZoom - e.getZoom()) > 0.001f) return;
+            if (Math.abs(mLastPanX - e.getPanX()) > 0.001f) return;
+            if (Math.abs(mLastPanY - e.getPanY()) > 0.001f) return;
+        }
+        mLastZoom = desiredZoom;
+        mLastPanX = panX;
+        mLastPanY = panY;
+        LOG.i("zoomToView:", "moving to panX:", panX, "panY:", panY, "realZoom:", desiredRealZoom);
         e.moveTo(desiredZoom, panX, panY, true);
     }
 

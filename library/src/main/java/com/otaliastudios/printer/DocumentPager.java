@@ -4,15 +4,12 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
 class DocumentPager extends LinearLayout implements Container<DocumentPager, DocumentPage> {
@@ -239,6 +236,22 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
         }
     }
 
+    @Nullable
+    @Override
+    public DocumentPage getSibling(DocumentPage current) {
+        if (!mEnabled) return null;
+        synchronized (mLock) {
+            int index = mPages.indexOf(current);
+            int next = index + 1;
+            if (next < mPages.size()) {
+                return mPages.get(next);
+            } else {
+                openPage();
+                return mPages.get(next);
+            }
+        }
+    }
+
     @Override
     public int getViewCount() {
         int count = 0;
@@ -304,6 +317,20 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
     }
 
     @Override
+    public List<View> collect() {
+        List<View> list = new ArrayList<>();
+        synchronized (mLock) {
+            for (DocumentPage page : mPages) {
+                removeView(page);
+                list.addAll(page.collect());
+            }
+        }
+        // We are in a illegal state now, but this is followed by
+        // something like setPrintSize() which will call closeAll().
+        return list;
+    }
+
+    @Override
     public void release(View view) {
         synchronized (mLock) {
             for (DocumentPage page : mPages) {
@@ -334,15 +361,27 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
             int index = mPages.indexOf(child);
             boolean first = index == 0;
 
-            // Check if the previous page wants our first child.
-            // TODO: this is a useless check if the first child was not the one collapsing.
+            // Check if the previousView page wants our first child.
+            // TODO: this is a useless check if the first child was not the one collapsing. !!!
             if (!first) {
                 LOG.v("onSpaceAvailable:", "trying to pass to page", child.getNumber() - 1);
                 DocumentPage previous = mPages.get(index - 1);
-                while (tryPassFirstViewToPrevious(child, previous)) {}
+
+                // Must do a special check for AutoSplit views.
+                boolean go = true;
+                View view = child.getViewCount() == 0 ? null : child.getViewAt(0);
+                if (view instanceof AutoSplitView) {
+                    AutoSplitView autoSplitView = (AutoSplitView) view;
+                    if (autoSplitView.previous() != null) {
+                        go = false;
+                    }
+                }
+                if (go) {
+                    while (tryPassFirstViewToPrevious(child, previous)) {}
+                }
             }
 
-            // Check if the next page wants to give this page its first child.
+            // Check if the nextView page wants to give this page its first child.
             index = mPages.indexOf(child);
             boolean last = index == getPageCount() - 1;
             if (index >= 0 && !last) {

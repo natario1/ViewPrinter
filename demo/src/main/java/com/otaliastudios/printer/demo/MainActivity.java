@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Chronometer;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements PrintCallback, Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PrinterLogger.setLogLevel(PrinterLogger.LEVEL_VERBOSE);
-        ZoomLogger.setLogLevel(ZoomLogger.LEVEL_VERBOSE);
+        ZoomLogger.setLogLevel(ZoomLogger.LEVEL_ERROR);
 
         setContentView(R.layout.activity_main);
         mDocument = findViewById(R.id.pdf_preview);
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements PrintCallback, Vi
         findViewById(R.id.print_png).setOnClickListener(this);
         findViewById(R.id.edit).setOnClickListener(this);
         findViewById(R.id.logo_prompt).setOnClickListener(this);
+
+        Chronometer chrono = findViewById(R.id.chrono);
+        chrono.start();
 
         mPanel = findViewById(R.id.controls);
         mPanel.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
