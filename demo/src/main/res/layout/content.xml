@@ -23,19 +23,19 @@
         style="@style/Text.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ViewPrinter Preview Document"/>
+        android:text="@string/title"/>
 
     <com.otaliastudios.printer.DocumentTextView
         style="@style/Text.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="An overview of the printer library.\nhttps://github.com/natario1/ViewPrinter"/>
+        android:text="@string/subtitle"/>
 
     <com.otaliastudios.printer.DocumentTextView
         style="@style/Text.Header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="A non editable paragraph"/>
+        android:text="@string/header_1"/>
 
     <com.otaliastudios.printer.AutoSplitTextView
         style="@style/Text.Paragraph"
@@ -48,13 +48,13 @@
         style="@style/Text.Header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Something trickier"/>
+        android:text="@string/header_2"/>
 
     <com.otaliastudios.printer.DocumentTextView
-        style="@style/Text.Paragraph.Strong"
+        style="@style/Text.Header2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="It\'s easy to have something right-aligned:"/>
+        android:text="@string/header_2_sub_1"/>
 
     <com.otaliastudios.printer.AutoSplitTextView
         style="@style/Text.Paragraph.RightAlign"
@@ -63,10 +63,10 @@
         android:text="@string/lorem_2"/>
 
     <com.otaliastudios.printer.DocumentTextView
-        style="@style/Text.Paragraph.Strong"
+        style="@style/Text.Header2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Actually, it's easy to do anything you can do with a TextView, using XML or programmatically. The PDF result will be even selectable!"/>
+        android:text="@string/header_2_sub_2"/>
 
     <com.otaliastudios.printer.AutoSplitTextView
         style="@style/Text.Paragraph"
@@ -80,10 +80,10 @@
         android:text="@string/lorem_3"/>
 
     <com.otaliastudios.printer.DocumentTextView
-        style="@style/Text.Paragraph.Strong"
+        style="@style/Text.Header2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="We have the full graphical power of the Android framework, to create pages or artworks. This also means that text can be editable:"/>
+        android:text="@string/header_2_sub_3"/>
 
     <com.otaliastudios.printer.AutoSplitEditText
         style="@style/Text.Paragraph"
@@ -95,13 +95,13 @@
         style="@style/Text.Header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Even better"/>
+        android:text="@string/header_3"/>
 
     <com.otaliastudios.printer.DocumentTextView
-        style="@style/Text.Paragraph.Strong"
+        style="@style/Text.Header2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="We are not restricted to text in any way!"/>
+        android:text="@string/header_3_sub_1"/>
 
     <CalendarView
         android:layout_marginTop="20pt"

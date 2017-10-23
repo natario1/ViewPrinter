@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">ViewPrinter Preview</string>
 
+    <string name="title">ViewPrinter Preview Document</string>
+    <string name="subtitle">An overview of the printer library.\nhttps://github.com/natario1/ViewPrinter</string>
+    <string name="header_1">A non editable Paragraph</string>
+    <string name="header_2">Something trickier</string>
+    <string name="header_2_sub_1">We have the full graphical power of the Android framework.
+        It\'s easy, for example, to right-align:</string>
+    <string name="header_2_sub_2">Actually, it\'s easy to do anything you can do with a TextView,
+        using XML or programmatically. The PDF result will even be selectable!</string>
+    <string name="header_2_sub_3">This also means that text can be editable. See how nicely the
+        text is split into pages or columns as you type:</string>
+    <string name="header_3">Even Better</string>
+    <string name="header_3_sub_1">We are not restricted to text in any way! With some layout skills,
+        you can create beautiful documents or artworks, with a live preview.</string>
+
     <string name="lorem_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Vel quam elementum pulvinar etiam non
         quam lacus suspendisse. Morbi blandit cursus risus at ultrices mi tempus imperdiet.
@@ -50,5 +64,8 @@
         vitae congue eu consequat ac felis donec.</string>
 
     <string name="lorem_4">Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Nec nam
-        aliquam sem et tortor consequat id porta nibh. Magna eget est lorem ipsum dolor sit amet…</string>
+        aliquam sem et tortor consequat id porta nibh. Nec sagittis aliquam malesuada bibendum arcu vitae
+        elementum curabitur. In aliquam sem fringilla ut morbi tincidunt augue interdum. Viverra
+        vitae congue eu consequat ac felis donec. Sit amet venenatis urna cursus. Sed egestas egestas
+        fringilla phasellus faucibus scelerisque eleifend. Magna eget est lorem ipsum dolor sit amet…</string>
 </resources>
