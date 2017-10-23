@@ -20,12 +20,16 @@ class Utils {
 
     //region Mark
 
+    // This is just a debug helper, but works only for views added through XML,
+    // Programmatically (e.g. AutoSplitView), everything breaks, unless we take care of it.
+
     static void mark(View view, int number) {
         view.setTag(VIEW_NUMBER, number);
     }
 
     static int mark(View view) {
-        return (int) (Integer) view.getTag(VIEW_NUMBER);
+        Object tag = view.getTag(VIEW_NUMBER);
+        return (tag != null) ? (int) tag : -99;
     }
 
     //endregion

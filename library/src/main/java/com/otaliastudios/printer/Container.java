@@ -1,5 +1,6 @@
 package com.otaliastudios.printer;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,6 +29,17 @@ interface Container<Root extends Container, Child extends Container> {
      * @return a list of children
      */
     List<Child> getChildren();
+
+    /**
+     * Returns the sibling of the current child. If it's the last
+     * (e.g. last column asking this to its parent page) the request should go up
+     * so that we get the first column of the following page.
+     *
+     * @param current the child asking
+     * @return this child next sibling
+     */
+    @Nullable
+    Child getSibling(Child current);
 
     /**
      * Whether this holder (or one of its children) can take care of
@@ -94,6 +106,13 @@ interface Container<Root extends Container, Child extends Container> {
      * @param view view to be released
      */
     void release(View view);
+
+    /**
+     * Collect all the views, releasing them from the View hierarchy.
+     *
+     * @return a list of views
+     */
+    List<View> collect();
 
     /**
      * Whether this container holds the given view.

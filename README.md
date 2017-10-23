@@ -27,25 +27,31 @@ compile 'com.otaliastudios:viewprinter:0.2.1'
 - [`DocumentView`](#documentview) : a live preview container for editable, zoomable, pannable views.
 - Automatic splitting into separate pages
 - Automatic splitting into separate page columns
+- [`AutoSplitTextView`](#text-content) and [`AutoSplitEditText`](#text-content) to split text into separate views
 - Standardized or custom [`PrintSize`](#printsize)s, or even wrap content
 - [`PdfPrinter`](#pdfprinter) prints document to PDF respecting pages
 - [`JpegPrinter`](#jpegprinter) and [`PngPrinter`](#pngprinter) to print single pages
-- Lightweight as possible, depends only on [natario1/ZoomLayout](https://github.com/natario1/ZoomLayout)
+
+ViewPrinter depends on [`natario1/ZoomLayout`](https://github.com/natario1/ZoomLayout): check it out!
 
 # Docs
 
 - [Why](#why)
-- [DocumentView](#documentView)
-  - [Unbounded content](#unbounded-content)
-  - [Bounded content](#bounded-content)
-  - [Automatic Splitting](#automatic-splitting)
+- [`DocumentView`](#documentView)
+  - [Free content](#free-content)
+  - [Paged content](#paged-content)
   - [Callbacks](#callbacks)
-- [PrintSize and Units](#printsize-and-units)  
+- [Automatic Splitting](#automatic-splitting)
+  - [Pagination](#pagination)
+  - [Columns](#columns)
+  - [Text content](#text-content)
+- [Custom Views](#custom-views)
+- [`PrintSize` and Units](#printsize-and-units)
 - [Printing documents](#printing-documents)
   - [Permissions](#permissions)
-  - [PdfPrinter](#pdfprinter)
-  - [PngPrinter](#pngprinter)
-  - [JpegPrinter](#jpegprinter)
+  - [`PdfPrinter`](#pdfprinter)
+  - [`PngPrinter`](#pngprinter)
+  - [`JpegPrinter`](#jpegprinter)
 
 ## Why
 
@@ -61,6 +67,8 @@ your resume, or a graphical task. The only things lacking, in order to leverage 
 - an easy way to print the document
 
 This library provides both.
+
+# Live Preview
 
 ## DocumentView
 
@@ -92,7 +100,7 @@ head there to discover more visual APIs.
 out into pages (or columns) that act as a vertical `LinearLayout`, so keep that in mind
 when adding childs.
 
-### Unbounded content
+### Free content
 
 The document view can act as if it had no physical boundaries. This can be achieved
 by setting the `PrintSize` to `PrintSize.WRAP_CONTENT`, which is a special size designed
@@ -117,7 +125,7 @@ output file will follow.
 
 If your content changes, the page will adapt to it.
 
-### Bounded content
+### Paged content
 
 Typically you would like to define the output file size (be it PDF or PNG or whatever).
 It can be achieved through `app:printSize` or `view.setPrintSize(PrintSize)`, and
@@ -152,23 +160,6 @@ your child views:
 </com.otaliastudios.printer.DocumentView>
 ```
 
-### Automatic Splitting
-
-The document preview will automatically split the content into different pages, and,
-if enabled, different vertical columns of a single page. This is managed by simply
-listening to layout changes.
-
-A few notes:
-
-- For text, please use `DocumentTextView`: it will notify the parent when it gets bigger.
-- For editable text, please use `DocumentEditText`: same as above.
-- If using app compat, you might want to use the `AppCompat-` version of these widgets.
-- We can't split text of a single view into multiple pages or columns (for now).
-  It is your responsibility to have Views that are small enough to avoid blank spaces.
-- For custom views, take a look at `DocumentHelper` methods.
-
-To enable columns, use `document.setColumnsPerPage(int)` or the XML attribute `app:columnsPerPage`.
-
 ### Callbacks
 
 You can be notified of pages creation or destruction by simply setting a `DocumentCallback`:
@@ -182,6 +173,94 @@ document.setDocumentCallback(new DocumentCallback() {
     public void onPageDestroyed(int number) {}
 })
 ```
+
+## Automatic Splitting
+
+The document preview will automatically split the content to make it fit into your page.
+The auto-split funcionality acts on three layers:
+
+- Views are distributed over [pages](#pagination)
+- Views are distributed over [columns](#columns)
+- [Text content](#text-content) is distributed over multiple views
+
+### Pagination
+
+To enable pagination, you simply have to set a [`PrintSize`](#printsize-and-units) that is
+different than `PrintSize.WRAP_CONTENT`. In this context, when our views start to go out of
+the page boundaries, a new page is created and the view is moved.
+
+It is recommended that you use `DocumentTextView` and `DocumentEditText` for your texts: these
+views will notify their parent when they are too small to fit the page. For custom views,
+please take a look at the `DocumentHelper` methods.
+
+### Columns
+
+To enable columns, use `document.setColumnsPerPage(int)` or the XML attribute `app:columnsPerPage`.
+This will split every page into columns, and we will move Views around if they happen to be
+bigger than their available space in the current column.
+
+Again, it is recommended that you use `DocumentTextView` and `DocumentEditText` for your texts.
+For other kinds of content, it is your responsibility to ensure that the views are small enough.
+
+### Text Content
+
+We provide support for text splitting, as you can see in the demo app.
+
+- For static text, please use `AutoSplitTextView`
+- For editable text, please use `AutoSplitEditText`
+
+These views should work out of the box. When space is not enough, the view will clone itself
+into a new child view, trying to keep as much properties as possible (text properties, padding, scale, etc.).
+This new view will have no id, but you can use `findViewById(R.id.firstView)` to get the first view
+of this chain, and act on that.
+
+|Method|Description|
+|------|-----------|
+|`setChainText(CharSequence)`|Sets text for the whole chain. This means that it will be redistributed as it should.|
+|`getChainText()`|Returns the text for the whole chain - not just the current view.|
+|`getFirst()`|Returns the first view of the chain - the original view that started splitting.|
+|`next()`|Returns the next view of the chain.|
+|`previous()`|Returns the previous view of the chain.|
+
+The `AutoSplitEditText` also supports the `app:chainBackground` XML attribute. It will control
+the edit text background, and hide it when the view loses its focus, for example.
+
+## Custom Views
+
+Different views might not be fully supported when there are pages. For example, it's hard to know
+if a view is smaller than it would like to be, and it's impossible to split its internal content.
+We provide some helpers to address the most common issues.
+
+### Documentable
+
+This is a general interface that might get richer in the future. For now we provide callbacks
+for the attach / detach lifecycle of a direct view.
+
+|Method|Description|
+|------|-----------|
+|`onAttach(int, int)`|Notifies that this view was attached to the given page and column.|
+|`onPreDetach()`|Notifies that this view is about to be detached. It can still act on its parent now.|
+|`onDetach()`|Notifies that this view has been detached (probably to move it to another page / column).|
+
+### DocumentHelper
+
+The document helper will help your views notify the page when they are smaller than they would like
+to be. Just call `DocumentHelper.onLayout(view)` after the view has been laid out. The helper will
+check if we need to trigger a re-layout or some movements.
+
+### AutoSplitView
+
+This is, again, a general purpose interface for views that want to implement auto splitting.
+The basic example is `AutoSplitTextView` which clones itself to split its content over multiple
+views. If you need to implement this, take a look at our implementations and the interface javadocs.
+
+### AutoSplitTextHelper
+
+This helper can help you implement the `AutoSplitView` interface for text views. It's all done -
+you just have to delegate the appropriate methods. It is used internally by `AutoSplitTextView` and
+`AutoSplitEditText`.
+
+# Print
 
 ## PrintSize and Units
 
@@ -299,4 +378,5 @@ using `mPrinter.setPrintQuality()`.
 
 # Contributions
 
-You are welcome to contribute with suggestions or pull requests.
+You are welcome to contribute with suggestions or pull requests. To contact me,
+<a href="mailto:mat.iavarone@gmail.com">send an email.</a>
