@@ -34,25 +34,6 @@ compile 'com.otaliastudios:viewprinter:0.3.0'
 
 ViewPrinter depends on [`natario1/ZoomLayout`](https://github.com/natario1/ZoomLayout): check it out!
 
-# Docs
-
-- [Why](#why)
-- [`DocumentView`](#documentView)
-  - [Free content](#free-content)
-  - [Paged content](#paged-content)
-  - [Callbacks](#callbacks)
-- [Automatic Splitting](#automatic-splitting)
-  - [Pagination](#pagination)
-  - [Columns](#columns)
-  - [Text content](#text-content)
-- [Custom Views](#custom-views)
-- [`PrintSize` and Units](#printsize-and-units)
-- [Printing documents](#printing-documents)
-  - [Permissions](#permissions)
-  - [`PdfPrinter`](#pdfprinter)
-  - [`PngPrinter`](#pngprinter)
-  - [`JpegPrinter`](#jpegprinter)
-
 ## Why
 
 The starting point of this library is that the Android framework is extremely powerful and versatile when drawing.
@@ -67,6 +48,31 @@ your resume, or a graphical task. The only things lacking, in order to leverage 
 - an easy way to print the document
 
 This library provides both.
+
+# Docs
+
+#### [Live Preview](#live-preview)
+
+- [`DocumentView`](#documentview)
+  - [Free content](#free-content)
+  - [Paged content](#paged-content)
+  - [Callbacks](#callbacks)
+- [Automatic Splitting](#automatic-splitting)
+  - [Pagination](#pagination)
+  - [Columns](#columns)
+  - [Text content](#text-content)
+- [Custom Views](#custom-views)
+
+#### [Print](#print)
+
+- [`PrintSize` and Units](#printsize-and-units)
+- [Printing documents](#printing-documents)
+  - [Permissions](#permissions)
+  - [`PdfPrinter`](#pdfprinter)
+  - [`PngPrinter`](#pngprinter)
+  - [`JpegPrinter`](#jpegprinter)
+
+
 
 # Live Preview
 
