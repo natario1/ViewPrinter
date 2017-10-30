@@ -44,8 +44,8 @@ create complex layouts with dependencies, apply transformations and whatever els
 This can be an incomplete, but very powerful and versatile tool for document creation, whether its text,
 your resume, or a graphical task. The only things lacking, in order to leverage this versatility, are:
 
-- a decent document preview editor
-- an easy way to print the document
+- a decent [document preview editor](#live-preview)
+- an [easy way to print](#print) the document
 
 This library provides both.
 
@@ -71,6 +71,7 @@ This library provides both.
   - [`PdfPrinter`](#pdfprinter)
   - [`PngPrinter`](#pngprinter)
   - [`JpegPrinter`](#jpegprinter)
+- [`Printable`](#printable)
 
 
 
@@ -381,6 +382,29 @@ mPrinter.print("id", mFile, "my-image");
 
 On top of the `PngPrinter` functionality, this will let you specify a JPEG compression quality
 using `mPrinter.setPrintQuality()`.
+
+## Printable
+
+The `Printable` interface can be implemented by any view in the hierarchy, no matter how deep.
+This will let it receive pre- and post-print event notifications, that can help in hiding visual
+artifacts that should not make their way to the final page.
+
+For instance, you can use `onPrePrint` to hide the red underlines in text fields.
+
+```java
+public interface Printable {
+
+    // View is about to be printed.
+    void onPrePrint();
+
+    // View has been printed.
+    void onPostPrint();
+}
+```
+
+The pre-print mode gives a actual preview of the final document. This can be toggled
+in the live editor using `documentView.showPrintPreview(boolean)`: every `Printable` view
+in the hierarchy will enter the pre-print / post-print mode.
 
 # Contributions
 
