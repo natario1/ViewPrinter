@@ -14,7 +14,7 @@ import android.widget.EditText;
  * @see DocumentTextView
  * @see DocumentHelper
  */
-public class DocumentEditText extends AppCompatEditText {
+public class DocumentEditText extends AppCompatEditText implements Printable {
 
     public DocumentEditText(Context context) {
         super(context);
@@ -32,5 +32,24 @@ public class DocumentEditText extends AppCompatEditText {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         DocumentHelper.onLayout(this);
+    }
+
+    /**
+     * Notifies that a print is going to happen.
+     * This is the right moment to release / hide edit features
+     * and artifacts.
+     */
+    @Override
+    public void onPrePrint() {
+
+    }
+
+    /**
+     * Notifies that the print process has ended.
+     * Visual artifacts can be restored now.
+     */
+    @Override
+    public void onPostPrint() {
+
     }
 }

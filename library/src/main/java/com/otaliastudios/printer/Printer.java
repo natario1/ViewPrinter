@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import java.io.File;
@@ -117,6 +119,44 @@ public abstract class Printer {
         } catch (IOException e) {
             mCallback.onPrintFailed(id, new RuntimeException("Could not create file.", e));
             return false;
+        }
+    }
+
+    void dispatchOnPrePrint() {
+        int count = mDocument.getPageCount();
+        for (int i = 0; i < count; i++) {
+            dispatchOnPrePrint(mDocument.getPageAt(i));
+        }
+    }
+
+    private void dispatchOnPrePrint(View view) {
+        if (view instanceof Printable) {
+            ((Printable) view).onPrePrint();
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                dispatchOnPrePrint(group.getChildAt(i));
+            }
+        }
+    }
+
+    void dispatchOnPostPrint() {
+        int count = mDocument.getPageCount();
+        for (int i = 0; i < count; i++) {
+            dispatchOnPostPrint(mDocument.getPageAt(i));
+        }
+    }
+
+    private void dispatchOnPostPrint(View view) {
+        if (view instanceof Printable) {
+            ((Printable) view).onPostPrint();
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                dispatchOnPostPrint(group.getChildAt(i));
+            }
         }
     }
 
