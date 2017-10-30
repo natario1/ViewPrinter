@@ -114,7 +114,7 @@ abstract class BitmapPrinter extends Printer {
         thread.start();
         final Handler worker = new Handler(thread.getLooper());
 
-        dispatchOnPrePrint();
+        dispatchOnPrePrint(mDocument);
         int count = mPrintAll ? mDocument.getPageCount() : mPrintable.length;
         for (int i = 0; i < count; i++) {
             final int page = mPrintAll ? i : mPrintable[i];
@@ -185,7 +185,7 @@ abstract class BitmapPrinter extends Printer {
                 }
             });
         }
-        dispatchOnPostPrint();
+        dispatchOnPostPrint(mDocument);
 
         worker.post(new Runnable() {
             @Override

@@ -400,8 +400,11 @@ public interface Printable {
     // View has been printed.
     void onPostPrint();
 }
-
 ```
+
+The pre-print mode gives a actual preview of the final document. This can be toggled
+in the live editor using `documentView.showPrintPreview(boolean)`: every `Printable` view
+in the hierarchy will enter the pre-print / post-print mode.
 
 # Contributions
 

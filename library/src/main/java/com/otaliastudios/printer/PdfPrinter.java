@@ -68,7 +68,7 @@ public final class PdfPrinter extends Printer {
         // Print page
         // Page canvas is passed in PostScript points. In order not to break View drawing,
         // we must scale that up back to pixels.
-        dispatchOnPrePrint();
+        dispatchOnPrePrint(mDocument);
         for (int i = 0; i < mDocument.getPageCount(); i++) {
             PdfDocument.Page page = doc.startPage(i);
             Canvas canvas = page.getCanvas();
@@ -87,7 +87,7 @@ public final class PdfPrinter extends Printer {
             }
             doc.finishPage(page);
         }
-        dispatchOnPostPrint();
+        dispatchOnPostPrint(mDocument);
 
         // I am not sure if the above would work with any view. Some views might be checking for
         // canvas.getWidth() or canvas.tryGetHeight(), which now are not consistent. If errors show up,

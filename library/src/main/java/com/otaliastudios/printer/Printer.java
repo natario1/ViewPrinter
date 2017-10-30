@@ -122,14 +122,14 @@ public abstract class Printer {
         }
     }
 
-    void dispatchOnPrePrint() {
-        int count = mDocument.getPageCount();
+    static void dispatchOnPrePrint(DocumentView document) {
+        int count = document.getPageCount();
         for (int i = 0; i < count; i++) {
-            dispatchOnPrePrint(mDocument.getPageAt(i));
+            dispatchOnPrePrint(document.getPageAt(i));
         }
     }
 
-    private void dispatchOnPrePrint(View view) {
+    private static void dispatchOnPrePrint(View view) {
         if (view instanceof Printable) {
             ((Printable) view).onPrePrint();
         }
@@ -141,14 +141,14 @@ public abstract class Printer {
         }
     }
 
-    void dispatchOnPostPrint() {
-        int count = mDocument.getPageCount();
+    static void dispatchOnPostPrint(DocumentView document) {
+        int count = document.getPageCount();
         for (int i = 0; i < count; i++) {
-            dispatchOnPostPrint(mDocument.getPageAt(i));
+            dispatchOnPostPrint(document.getPageAt(i));
         }
     }
 
-    private void dispatchOnPostPrint(View view) {
+    private static void dispatchOnPostPrint(View view) {
         if (view instanceof Printable) {
             ((Printable) view).onPostPrint();
         }
