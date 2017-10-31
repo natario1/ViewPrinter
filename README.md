@@ -71,7 +71,7 @@ This library provides both.
   - [`PdfPrinter`](#pdfprinter)
   - [`PngPrinter`](#pngprinter)
   - [`JpegPrinter`](#jpegprinter)
-- [`Printable`](#printable)
+- [`Printable` and Print Preview](#printable-and-print-preview)
 
 
 
@@ -383,7 +383,7 @@ mPrinter.print("id", mFile, "my-image");
 On top of the `PngPrinter` functionality, this will let you specify a JPEG compression quality
 using `mPrinter.setPrintQuality()`.
 
-## Printable
+## Printable and Print Preview
 
 The `Printable` interface can be implemented by any view in the hierarchy, no matter how deep.
 This will let it receive pre- and post-print event notifications, that can help in hiding visual
@@ -402,9 +402,11 @@ public interface Printable {
 }
 ```
 
-The pre-print mode gives a actual preview of the final document. This can be toggled
-in the live editor using `documentView.showPrintPreview(boolean)`: every `Printable` view
-in the hierarchy will enter the pre-print / post-print mode.
+The pre-print mode gives an actual preview of the final document. This can be toggled
+in the live editor using `documentView.enterPrintPreview()` and `documentView.exitPrintPreview()`.
+
+With these, every `Printable` view in the hierarchy will enter its pre-print / post-print mode.
+If there are no `Printable` views, these methods have no noticeable effect.
 
 # Contributions
 

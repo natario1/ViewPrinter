@@ -336,18 +336,23 @@ public class DocumentView extends ZoomLayout implements View.OnLayoutChangeListe
     }
 
     /**
-     * Toggles the 'print preview' mode. This just means that any
-     * {@link Printable} view will get its lifecycle methods in order
-     * to hide things that should not be printed in the final document.
-     *
-     * @param on whether to turn the print preview mode on or off
+     * Enters the 'print preview' mode. This just means that any
+     * {@link Printable} view in the hierarchy will receive the
+     * {@link Printable#onPrePrint()} call, in order to hide things
+     * that should not be printed in the final document.
      */
-    public void showPrintPreview(boolean on) {
-        if (on) {
-            Printer.dispatchOnPrePrint(this);
-        } else {
-            Printer.dispatchOnPostPrint(this);
-        }
+    public void enterPrintPreview() {
+        Printer.dispatchOnPrePrint(this);
+    }
+
+    /**
+     * Exits the 'print preview' mode. This means that any
+     * {@link Printable} view in the hierarchy will receive the
+     * {@link Printable#onPostPrint()} call, in order to restore
+     * its visual appearance.
+     */
+    public void exitPrintPreview() {
+        Printer.dispatchOnPostPrint(this);
     }
 
     //region Focusability (from platform ScrollView)
