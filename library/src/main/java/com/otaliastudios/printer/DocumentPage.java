@@ -293,6 +293,15 @@ class DocumentPage extends LinearLayout implements Container<DocumentPager, Docu
     }
 
     @Override
+    public void onEmpty(DocumentColumn documentColumn) {
+        // There's some chance that we are empty.
+        int count = getViewCount();
+        if (count == 0) {
+            getRoot().onEmpty(this);
+        }
+    }
+
+    @Override
     public void onSpaceAvailable(DocumentColumn child) {
         Utils.clearUntakableView(child);
         mLog.i("onSpaceAvailable:", "fromColumn:", child.getNumber());

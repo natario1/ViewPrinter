@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -75,7 +76,7 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
     @Override
     public List<DocumentColumn> getChildren() {
         // We have no children.
-        return Arrays.asList(this);
+        return Collections.emptyList();
     }
 
     @Nullable
@@ -107,6 +108,11 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
 
     @Override
     public void onSpaceOver(DocumentColumn child) {
+        // We have no children so no one can call this.
+    }
+
+    @Override
+    public void onEmpty(DocumentColumn documentColumn) {
         // We have no children so no one can call this.
     }
 
@@ -254,15 +260,16 @@ class DocumentColumn extends LinearLayout implements Container<DocumentPage, Doc
         // Our LayoutParams have a fixed height, see DocumentPage.
         // So we are not going to grasp anything meaningful from bottom - top.
         int oldHeight = mContentHeight;
-        int newHeight = getCurrentHeight();
+        mContentHeight = getCurrentHeight();
+        final int space = mHeightBound - mContentHeight;
+        mLog.i("onLayoutChange:", "oldHeight:", oldHeight, "newHeight:", mContentHeight, "space:", space);
 
-        final boolean grown = newHeight > oldHeight;
-        final int space = mHeightBound - newHeight;
-        mLog.i("onLayoutChange:", "oldHeight:", oldHeight, "newHeight:", newHeight, "space:", space);
-
-        mContentHeight = newHeight;
+        if (getViewCount() == 0) {
+            getRoot().onEmpty(this);
+            return;
+        }
         if (oldHeight == 0) return; // First pass.
-        if (newHeight == oldHeight) return; // Not really changed. This happens.
+        if (mContentHeight == oldHeight) return; // Not really changed. This happens.
         if (space == 0) return; // Nothing to dispatch.
         // No other quick end is a good idea, even if it might look so.
 

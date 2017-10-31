@@ -353,6 +353,14 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
     }
 
     @Override
+    public void onEmpty(DocumentPage documentPage) {
+        int number = mPages.indexOf(documentPage);
+        if (number > 0) {
+            closePage(documentPage);
+        }
+    }
+
+    @Override
     public void onSpaceAvailable(DocumentPage child) {
         Utils.clearUntakableView(child);
         LOG.i("onSpaceAvailable:", "fromPage:", child.getNumber());
@@ -401,7 +409,7 @@ class DocumentPager extends LinearLayout implements Container<DocumentPager, Doc
             current.release(view);
             previous.take(view, view.getLayoutParams());
             if (current.getViewCount() == 0) {
-                closePage(current);
+                onEmpty(current);
             }
             if (hasFocus) {
                 view.post(new Runnable() {

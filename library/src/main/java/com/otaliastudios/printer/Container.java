@@ -140,4 +140,12 @@ interface Container<Root extends Container, Child extends Container> {
      * @param child the container notifying us
      */
     void onSpaceOver(Child child);
+
+    /**
+     * Our child notifies that he has no views left.
+     * This is a good time to close it if necessary.
+     *
+     * @param child the container notifying us
+     */
+    void onEmpty(Child child);
 }
