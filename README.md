@@ -1,4 +1,10 @@
 [![Build Status](https://travis-ci.org/natario1/ViewPrinter.svg?branch=master)](https://travis-ci.org/natario1/ViewPrinter)
+[![Release](https://img.shields.io/github/release/natario1/ViewPrinter.svg)](https://github.com/natario1/ViewPrinter/releases)
+[![Issues](https://img.shields.io/github/issues-raw/natario1/ViewPrinter.svg)](https://github.com/natario1/ViewPrinter/issues)
+
+*Need support, consulting, or have any other business-related question? Feel free to <a href="mailto:mat.iavarone@gmail.com">get in touch</a>.*
+
+*Like the project, make profit from it, or simply want to thank back? Please consider [sponsoring me](https://github.com/sponsors/natario1)!*
 
 <p align="center">
   <img src="art/logo_400.png" vspace="10" width="250" height="250">
